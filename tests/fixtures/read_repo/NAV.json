@@ -1,0 +1,10 @@
+{
+  "profile": "eutonos.tokenslang.nav-fixture.v1",
+  "resource_id": "NAV-DEMO",
+  "revision": "1",
+  "label": "Synthetic greeting source route",
+  "visibility": "public",
+  "state": "active",
+  "evidence": "fixture-only",
+  "sources": [{"scope_id": "fixture.scope", "namespace": "fixture.native", "resource_id": "SRC-DEMO"}]
+}

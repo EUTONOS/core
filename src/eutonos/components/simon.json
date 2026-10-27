@@ -1,0 +1,41 @@
+{
+  "profile": "eutonos.component.v1",
+  "id": "simon",
+  "name": "Simon desktop helper",
+  "version": "1.0.0",
+  "kind": "bundled",
+  "requires": {
+    "eutonos": ">=0.5",
+    "components": [
+      "core"
+    ],
+    "os": [
+      "windows"
+    ],
+    "apps": [
+      "claude",
+      "codex",
+      "hermes"
+    ],
+    "tools": []
+  },
+  "default": "off",
+  "gate": null,
+  "kit": "kits/simon",
+  "entry": {
+    "plan": "eutonos.component_simon:plan",
+    "apply": "eutonos.component_simon:apply",
+    "verify": "eutonos.component_simon:verify",
+    "remove": "eutonos.component_simon:remove"
+  },
+  "permissions": [
+    "simon-codex-rule"
+  ],
+  "consent_lines": [
+    "simon-codex-rule"
+  ],
+  "licence": {
+    "required": false,
+    "check": null
+  }
+}

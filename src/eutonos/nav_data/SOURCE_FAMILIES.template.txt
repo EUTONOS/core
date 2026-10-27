@@ -1,0 +1,12 @@
+# Repository Source Families
+
+Status: SEEDED
+Source revision: unresolved
+
+Map major implementation, model, persistence, configuration, generated-owner,
+and verification families. A source family is a bounded inspection route, not
+a claim that every file in a directory shares one owner.
+
+## Source Families
+
+<!-- Add SRC-* records using SCHEMA.md. -->

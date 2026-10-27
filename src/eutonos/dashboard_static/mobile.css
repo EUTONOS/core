@@ -1,0 +1,5 @@
+@media(max-width:720px){
+  .sidebar nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;overflow:visible;padding:0}
+  .sidebar nav a{padding:8px 5px;font-size:.82rem;justify-content:center;gap:6px}
+  .sidebar nav a svg{display:none}
+}

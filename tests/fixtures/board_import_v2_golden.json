@@ -1,0 +1,155 @@
+{
+  "fixture_note": "Immutable H2 compatibility vector, authored with stdlib JSON/SHA256 only. Source hashes are syntax-valid test identities, not source evidence or admission. The journal fragment is retained board_import metadata, not an executable whole effect. The SQLite row represents a historical binding for read-only lookup only.",
+  "raw_batch": {
+    "profile": "eutonos.tokenslang.write-batch.v1",
+    "requested_by": {
+      "kind": "agent-claim",
+      "value": "RCI compatibility — frozen v2"
+    },
+    "operations": [
+      {
+        "kind": "import",
+        "request": {
+          "profile": "eutonos.tokenslang.board-import.v1",
+          "mode": "register",
+          "owner_path": "docs/campaigns/golden.md",
+          "expected_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "expected_owner_sha256": null,
+          "expected_registry_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "document": {
+            "id": "fixture.golden.owner",
+            "role": "fixture-golden",
+            "path": "docs/campaigns/golden.md"
+          },
+          "source": {
+            "commit": "3333333333333333333333333333333333333333",
+            "path": "docs/campaigns/legacy.md",
+            "blob_oid": "4444444444444444444444444444444444444444",
+            "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+          },
+          "items": [
+            {
+              "id": "GOLD",
+              "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+              "disposition": "historical"
+            },
+            {
+              "id": "GOLD1",
+              "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+              "disposition": "held",
+              "expected_item_revision": "legacy-revision-1"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "normalized_batch": {
+    "profile": "eutonos.tokenslang.write-batch.v1",
+    "requested_by": {
+      "kind": "agent-claim",
+      "value": "RCI compatibility — frozen v2"
+    },
+    "operations": [
+      {
+        "kind": "import",
+        "request": {
+          "profile": "eutonos.tokenslang.board-import.v1",
+          "mode": "register",
+          "owner_path": "docs/campaigns/golden.md",
+          "expected_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "expected_owner_sha256": null,
+          "expected_registry_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "document": {
+            "id": "fixture.golden.owner",
+            "role": "fixture-golden",
+            "path": "docs/campaigns/golden.md"
+          },
+          "source": {
+            "commit": "3333333333333333333333333333333333333333",
+            "path": "docs/campaigns/legacy.md",
+            "blob_oid": "4444444444444444444444444444444444444444",
+            "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+          },
+          "items": [
+            {
+              "id": "GOLD",
+              "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+              "disposition": "historical"
+            },
+            {
+              "id": "GOLD1",
+              "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+              "disposition": "held",
+              "expected_item_revision": "legacy-revision-1"
+            }
+          ]
+        }
+      }
+    ],
+    "operation_id": "batch-d8c6c3189fa2b02c98af3d58"
+  },
+  "canonical_batch_utf8": "{\"operation_id\":\"batch-d8c6c3189fa2b02c98af3d58\",\"operations\":[{\"kind\":\"import\",\"request\":{\"document\":{\"id\":\"fixture.golden.owner\",\"path\":\"docs/campaigns/golden.md\",\"role\":\"fixture-golden\"},\"expected_config_sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"expected_owner_sha256\":null,\"expected_registry_sha256\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"items\":[{\"disposition\":\"historical\",\"id\":\"GOLD\",\"sha256\":\"6666666666666666666666666666666666666666666666666666666666666666\"},{\"disposition\":\"held\",\"expected_item_revision\":\"legacy-revision-1\",\"id\":\"GOLD1\",\"sha256\":\"7777777777777777777777777777777777777777777777777777777777777777\"}],\"mode\":\"register\",\"owner_path\":\"docs/campaigns/golden.md\",\"profile\":\"eutonos.tokenslang.board-import.v1\",\"source\":{\"blob_oid\":\"4444444444444444444444444444444444444444\",\"commit\":\"3333333333333333333333333333333333333333\",\"path\":\"docs/campaigns/legacy.md\",\"sha256\":\"5555555555555555555555555555555555555555555555555555555555555555\"}}}],\"profile\":\"eutonos.tokenslang.write-batch.v1\",\"requested_by\":{\"kind\":\"agent-claim\",\"value\":\"RCI compatibility — frozen v2\"}}",
+  "batch_sha256": "b22d9c7a9c64fc433a2f12b99fd69af59b8383b4f65c91462d8ea61336f2359f",
+  "request_id_basis_utf8": "{\"operation_id\":\"batch-d8c6c3189fa2b02c98af3d58\",\"root\":\"/eutonos-fixtures/rci-v2-golden\"}",
+  "journal_metadata": {
+    "profile": "eutonos.tokenslang.board-import-effect.v2",
+    "operation_id": "batch-d8c6c3189fa2b02c98af3d58",
+    "request_sha256": "b22d9c7a9c64fc433a2f12b99fd69af59b8383b4f65c91462d8ea61336f2359f",
+    "modes": [
+      "register"
+    ],
+    "original_batch": {
+      "profile": "eutonos.tokenslang.write-batch.v1",
+      "requested_by": {
+        "kind": "agent-claim",
+        "value": "RCI compatibility — frozen v2"
+      },
+      "operations": [
+        {
+          "kind": "import",
+          "request": {
+            "profile": "eutonos.tokenslang.board-import.v1",
+            "mode": "register",
+            "owner_path": "docs/campaigns/golden.md",
+            "expected_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+            "expected_owner_sha256": null,
+            "expected_registry_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "document": {
+              "id": "fixture.golden.owner",
+              "role": "fixture-golden",
+              "path": "docs/campaigns/golden.md"
+            },
+            "source": {
+              "commit": "3333333333333333333333333333333333333333",
+              "path": "docs/campaigns/legacy.md",
+              "blob_oid": "4444444444444444444444444444444444444444",
+              "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+            },
+            "items": [
+              {
+                "id": "GOLD",
+                "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+                "disposition": "historical"
+              },
+              {
+                "id": "GOLD1",
+                "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+                "disposition": "held",
+                "expected_item_revision": "legacy-revision-1"
+              }
+            ]
+          }
+        }
+      ],
+      "operation_id": "batch-d8c6c3189fa2b02c98af3d58"
+    }
+  },
+  "binding": {
+    "id": "write-batch-cbef4651d813bccb26da2c9a",
+    "root": "/eutonos-fixtures/rci-v2-golden",
+    "actor": "golden-writer",
+    "payload_sha256": "b22d9c7a9c64fc433a2f12b99fd69af59b8383b4f65c91462d8ea61336f2359f",
+    "created_at": 1700000000.0
+  }
+}

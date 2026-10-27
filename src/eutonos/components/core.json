@@ -1,0 +1,52 @@
+{
+  "profile": "eutonos.component.v1",
+  "id": "core",
+  "name": "EUTONOS core",
+  "version": "1.0.0",
+  "kind": "core",
+  "requires": {
+    "eutonos": ">=0.5",
+    "components": [],
+    "os": [
+      "windows",
+      "macos"
+    ],
+    "apps": [],
+    "tools": [
+      "git"
+    ]
+  },
+  "default": "on",
+  "gate": null,
+  "kit": null,
+  "entry": {
+    "plan": "eutonos.component_core:plan",
+    "apply": "eutonos.component_core:apply",
+    "verify": "eutonos.component_core:verify",
+    "remove": "eutonos.component_core:remove"
+  },
+  "permissions": [
+    "runtime-pip",
+    "desktop-folder-auto",
+    "record-keeping-rule",
+    "codex-sandbox",
+    "codex-record-rule",
+    "codex-trust",
+    "user-path",
+    "user-env-home",
+    "installed-apps-entry"
+  ],
+  "consent_lines": [
+    "runtime-pip",
+    "desktop-folder-auto",
+    "record-keeping-rule",
+    "codex-sandbox",
+    "codex-record-rule",
+    "codex-trust",
+    "user-path"
+  ],
+  "licence": {
+    "required": false,
+    "check": null
+  }
+}

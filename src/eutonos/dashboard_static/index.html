@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EUTONOS Dashboard</title>
+  <meta name="description" content="Read-only visibility into EUTONOS work, memory, navigation, runs and measurements.">
+  <link rel="icon" type="image/png" sizes="32x32" href="/eutonos-epsilon-32.png">
+  <script src="/appearance.js"></script>
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/brand.css">
+  <link rel="stylesheet" href="/mobile.css">
+  <link rel="stylesheet" href="/companion.css">
+  <link rel="stylesheet" href="/repo_views.css">
+  <script src="/user_tests.js" defer></script>
+  <script src="/companion.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/repo_views.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="EUTONOS overview"><span class="brand-mark"><img src="/eutonos-epsilon-64.png" alt="" width="26" height="26"></span><span>EUTONOS</span></a>
+      <nav id="primary-nav" aria-label="Dashboard">
+        <a href="#overview" data-view="overview">Overview</a>
+        <a href="#delivery" data-view="delivery">Delivery</a>
+        <a href="#work-order" data-view="work-order">Work order</a>
+        <div class="boards-nav-group" data-boards-nav-group>
+          <a href="#boards" data-view="boards" data-boards-nav-toggle aria-expanded="false" aria-controls="boards-subnav">Boards</a>
+          <div class="boards-subnav" id="boards-subnav" hidden>
+            <a href="#boards" data-boards-nav="quick">Quick work</a>
+            <a href="#boards" data-boards-nav="slices">Slices</a>
+            <a href="#boards" data-boards-nav="campaigns">Campaigns</a>
+            <a href="#boards" data-boards-nav="features">Features</a>
+            <a href="#boards" data-boards-nav="capabilities">Capabilities</a>
+            <a href="#boards" data-boards-nav="architecture">Architecture</a>
+            <a href="#boards" data-boards-nav="bugs">Known bugs</a>
+          </div>
+        </div>
+        <a href="#changes" data-view="changes">Changes</a>
+        <span class="nav-group">Repository</span>
+        <a href="#shared-repositories" data-view="shared-repositories">Shared repositories</a>
+        <a href="#repository-state" data-view="repository-state">Main and latest work</a>
+        <a href="#repo-health" data-view="repo-health">Health</a>
+        <a href="#repo-hotspots" data-view="repo-hotspots">Hotspots</a>
+        <a href="#nav-graph" data-view="nav-graph">NAV graph</a>
+        <span class="nav-group">Knowledge</span>
+        <a href="#skills" data-view="skills">Skills</a>
+        <a href="#memory" data-view="memory">Memory</a>
+        <a href="#navigation" data-view="navigation">Navigation</a>
+        <a href="#gallery" data-view="gallery">Gallery</a>
+        <span class="nav-group">Activity</span>
+        <a href="#runs" data-view="runs">Runs</a>
+        <a href="#activity" data-view="activity">Activity</a>
+        <a href="#metrics" data-view="metrics">Metrics</a>
+        <a href="#timeline" data-view="timeline">Timeline</a>
+        <a href="#companion" data-view="companion">Tests</a>
+        <a href="#cross-talk" data-view="cross-talk">Cross-app talk</a>
+        <span class="nav-group">Workspace</span>
+        <div class="settings-nav-group" data-settings-nav-group>
+          <a href="#settings" data-view="settings" data-settings-nav-toggle aria-expanded="false" aria-controls="settings-subnav">Settings</a>
+          <div class="settings-subnav" id="settings-subnav" hidden>
+            <span class="settings-subnav-label">This repository</span>
+            <a href="#settings" data-settings-nav="routing">Smart routing</a>
+            <a href="#settings" data-settings-nav="task_rules">Who does what</a>
+            <a href="#settings" data-settings-nav="roles">Roles</a>
+            <a href="#settings" data-settings-nav="ram">RAM</a>
+            <a href="#settings" data-settings-nav="tracking">Metrics</a>
+            <a href="#settings" data-settings-nav="shared_work">Shared work</a>
+            <a href="#settings" data-settings-nav="delivery">Git delivery</a>
+            <span class="settings-subnav-label">This computer</span>
+            <a href="#settings" data-settings-nav="m_parts">Parts</a>
+            <a href="#settings" data-settings-nav="m_crosstalk">Crosstalk</a>
+            <a href="#settings" data-settings-nav="m_claude">Claude</a>
+            <a href="#settings" data-settings-nav="install_consent">Install consent</a>
+            <a href="#settings" data-settings-nav="permissions">Permissions</a>
+          </div>
+        </div>
+        <a href="#system" data-view="system">System</a>
+        <a href="#offers" data-view="offers">What EUTONOS offers</a>
+      </nav>
+      <div class="sidebar-note"><strong>Native records: read-only</strong><span>Local usage tracking is adjustable.</span></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <label>Repository <select id="project-select" aria-label="Repository"></select></label>
+        <div class="top-actions"><span id="snapshot-state" class="quiet">Loading current records…</span><label class="appearance-control" for="appearance-select">Appearance<select id="appearance-select"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label><button id="refresh" type="button">Refresh</button></div>
+      </header>
+      <main id="content" tabindex="-1"><div class="loading"><span></span><p>Reading EUTONOS records…</p></div></main>
+    </div>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,380 @@
+// Crosstalk MVP Claude Code plugin (Mod API). Template: crosstalk_p0_install.py render-plugin
+// replaces the three path placeholders below (RUNTIME, CLI and HELPER) with absolute paths and writes ../plugin/hooks/register.mjs.
+//
+// What it does:
+//  - session.start: registers this chat (exact session ID, cwd, account ID) in the device directory through
+//    the helper, and exposes four tools: status, list, send, create.
+//  - Gated off inside the one-shot headless sender session (env CROSSTALK_P0_ROLE=sender), which would
+//    otherwise load this user-scope plugin too and register a throwaway chat.
+//  - Caller identity is ONLY $.session.id(); no tool argument names a caller, path or root.
+//  - Mail slot: at session start this chat asks the helper for letters still waiting for it (the helper woke
+//    this chat for them, or an outcome stayed uncertain) and posts them as visible user turns.
+//    The helper checks the transcript first, so a letter that already arrived is never shown twice.
+//  - Self relink (0.0.12): a chat the helper woke for a letter has no Remote Control. After its first turn
+//    completes, this hook asks the helper whether this chat was letter-woken and is not stored owner-off; if so it
+//    calls Desktop's set_remote_control for session_id "self" with no model turn. $.tool.check comes first; anything
+//    but allow, or a failed call, is a quiet logged failure, never a retry (the installer's permission rule is needed).
+//  - Restart relink (0.0.12): after a Desktop restart the helper lists the chats whose Remote Control was on and
+//    keeps helper/relink-open.json while entries wait. A running chat polls that file (every second, from the start
+//    of session.start, 0.0.14), claims the list from the
+//    helper (one chat wins) and sends each listed chat (three at a time) the fixed reconnect text through Desktop's send_message, which
+//    starts the stopped chat and brings its Remote Control back. No model turn, no relay chat, no letter; if
+//    $.tool.check is not allow it does nothing and the helper's notice names the missing permission rule.
+//  - Guard (0.0.12): tool.call hooks for both Desktop tools constrain only THIS plugin's own calls (next.origin.plugin
+//    is this plugin): set_remote_control only for "self" and never enabled:false, send_message only the fixed reconnect
+//    text to a chat on the claimed list. The model's own calls (origin "engine") pass untouched. A tool.check hook
+//    only tightens: Crosstalk's installed allow rules (MCP rules match the tool name only) must not auto-approve the
+//    model's calls, so a model call that the rule would allow becomes `ask` and goes to the mode's normal decider.
+//    The decision for own calls is the helper's (core.relink_guard).
+//  - Notices: at session start the helper's open notices are shown as toasts (no focus change).
+// Mod modules run in a sandbox: no Node APIs, no require, results must be JSON strings.
+const TAG = 'crosstalk.p0.claude-plugin.v1'
+const RUNTIME = '__CROSSTALK_P0_RUNTIME__'
+const CLI = '__CROSSTALK_P0_CLI__'
+const HELPER = '__CROSSTALK_P0_HELPER__'
+const RELINK_POLL_MS = 1000
+const RELINK_PARALLEL = 3
+const RELINK_FLAG_FRESH_MS = 120000
+const SET_REMOTE_CONTROL = 'mcp__ccd_session_mgmt__set_remote_control'
+const SEND_MESSAGE = 'mcp__ccd_session_mgmt__send_message'
+const LOCAL_ID = /^local_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+const HELPER_MAX_BYTES = 32768
+const FORBIDDEN_ARGS = ['caller', 'from', 'sender', 'sessionId', 'session_id', 'threadId', 'thread_id',
+  'path', 'root', 'cwd', 'file_path', 'command', 'cmd', 'argv', 'args']
+const LETTER_HEAD = 'Crosstalk message from '
+const LETTER_REF = /\nref CTP0-[0-9a-f]{12}$/
+const LETTER_ENVELOPE = /^<cross-session-message\b[^>]*>([\s\S]*)<\/cross-session-message>$/
+const toolResult = value =>({ result: JSON.stringify(value) })
+let startupRegistration = { attempted: false }
+
+// Restart relink: when the helper's flag file says entries wait, claim the list (one chat wins) and send each chat the
+// fixed text through Desktop's send_message. One tick at a time; an entry is never retried.
+let relinkBusy = false
+async function relinkTick($, sessionId) {
+  if (relinkBusy) return
+  relinkBusy = true
+  try {
+    const raw = await safely(() => $.fs.read(`${HELPER}/relink-open.json`))
+    const flag = typeof raw === 'string' ? await safely(() => JSON.parse(raw)) : null
+    if (!flag || typeof flag.ts_ms !== 'number' || Date.now() - flag.ts_ms > RELINK_FLAG_FRESH_MS) return
+    const claim = await helper($, 'claude-relink-claim', { sessionId }, 20000, 'status')
+    const jobs = (Array.isArray(claim?.jobs) ? claim.jobs : []).filter(job => LOCAL_ID.test(job?.to)
+      && typeof job.text === 'string' && typeof job.attempt_id === 'string')
+    if (!jobs.length) return
+    let permission = null
+    try {
+      permission = (await $.tool.check({ tool: SEND_MESSAGE, input: { session_id: jobs[0].to, message: jobs[0].text } }))?.decision
+    } catch {
+      permission = null
+    }
+    const sendJob = async job => {
+      let delivered = false
+      let reason = ''
+      if (permission !== 'allow') {
+        reason = 'permission-rule-missing'
+      } else {
+        try {
+          await $.tool.call({ tool: SEND_MESSAGE, session_id: job.to, message: job.text })
+          delivered = true
+        } catch (error) {
+          reason = String(error?.message ?? 'send-threw')
+        }
+      }
+      await helper($, 'claude-relink-done', { sessionId, to: job.to, attempt_id: job.attempt_id, delivered, reason: reason.slice(0, 1000) },
+        20000, 'status')
+    }
+    // A few chats at a time (each start takes Desktop about 2 s, so a long list one by one was the slow part).
+    let nextJob = 0
+    const worker = async () => {
+      while (nextJob < jobs.length) await sendJob(jobs[nextJob++])
+    }
+    await Promise.all(Array.from({ length: Math.min(RELINK_PARALLEL, jobs.length) }, worker))
+  } catch {
+    // A failed tick changes nothing: an unreported claim fails in the helper, and no entry is retried.
+  } finally {
+    relinkBusy = false
+  }
+}
+
+// Self relink after a letter wake, once per chat process, at the end of its first turn (the tool refuses a chat that
+// has not run one). Quiet on every failure.
+let selfRelinkTried = false
+async function selfRelink($, sessionId) {
+  if (selfRelinkTried) return
+  selfRelinkTried = true
+  const answer = await helper($, 'claude-self-relink', { sessionId }, 20000, 'status')
+  if (answer?.relink !== true || typeof answer.attempt_id !== 'string') return
+  let outcome = 'failed'
+  let reason = ''
+  try {
+    const permission = (await $.tool.check({ tool: SET_REMOTE_CONTROL, input: { session_id: 'self', enabled: true } }))?.decision
+    if (permission !== 'allow') {
+      outcome = 'denied'
+      reason = `permission-${String(permission)}`
+    } else {
+      await $.tool.call({ tool: SET_REMOTE_CONTROL, session_id: 'self', enabled: true })
+      outcome = 'on'
+    }
+  } catch (error) {
+    reason = String(error?.message ?? 'call-threw').slice(0, 200)
+  }
+  await helper($, 'claude-self-relink-done', { sessionId, attempt_id: answer.attempt_id, outcome, reason }, 20000, 'status')
+}
+
+// The two Desktop tools Crosstalk's allow rules cover; the rule strings are in the installer's PERMISSION_ENTRIES.
+const CROSSTALK_RULES = [SET_REMOTE_CONTROL, SEND_MESSAGE]
+const ownCall = ($, next) => next?.origin?.plugin === $.plugin.name
+
+// Guard for this plugin's own calls of the two Desktop tools: the helper decides; any failure to ask denies.
+// Anyone else's call (the model's, another plugin's) is passed on untouched. `next` runs the call.
+async function guardTool($, e, next, tool) {
+  if (!ownCall($, next)) return next(e)
+  const args = e && typeof e === 'object' ? { ...e } : {}
+  delete args.tool_use_id
+  if (args.enabled === false) return { deny: 'Crosstalk guard: Remote Control is never switched off from a chat.' }
+  if (tool === SET_REMOTE_CONTROL && args.session_id !== 'self')
+    return { deny: 'Crosstalk guard: Remote Control may only be switched on for this chat itself (session_id "self").' }
+  const answer = await helper($, 'claude-relink-guard', { sessionId: await $.session.id(), tool, args }, 20000, 'status')
+  return answer?.allow === true ? next(e) : { deny: String(answer?.reason ?? 'Crosstalk guard: could not check this call.').slice(0, 300) }
+}
+
+// Only tightens, never allows: a call that is not this plugin's and that Crosstalk's own allow rule would approve goes
+// to the mode's normal decider instead, as if the rule did not exist.
+async function tightenCheck($, e, next) {
+  const res = await next(e)
+  if (ownCall($, next) || res?.decision !== 'allow' || !CROSSTALK_RULES.some(rule => res.rule === rule || res.rule === `${rule}(*)`)) return res
+  return { ...res, decision: 'ask', rule: undefined, reason: 'Crosstalk allow rules cover only the Crosstalk plugin\'s own calls.' }
+}
+
+async function safely(fn) {
+  try { return await fn() } catch { return null }
+}
+
+// Post every letter the helper hands this chat from its mail slot; the helper hands each one out once.
+// Not awaited by the caller: a start hook awaiting its own prompt.submit could hang.
+async function pullMailSlot($, sessionId) {
+  const answer = await helper($, 'claude-mail-slot', { sessionId }, 20000, 'status')
+  for (const letter of Array.isArray(answer?.letters) ? answer.letters : []) {
+    const text = typeof letter?.text === 'string' ? letter.text.trim() : ''
+    if (!text.startsWith(LETTER_HEAD) || !LETTER_REF.test(text)) continue
+    $.prompt.submit({ text, asUser: true }).catch(() =>
+      $.ui.toast('Crosstalk: a waiting letter could not be shown; status will report it as not arrived'))
+  }
+}
+
+// Show the helper's open notices as toasts (no focus change). Not awaited by the caller; never throws.
+async function showNotices($, sessionId) {
+  try {
+    const answer = await helper($, 'claude-notices', { sessionId }, 20000, 'status')
+    for (const notice of (Array.isArray(answer?.notices) ? answer.notices : []).slice(0, 3))
+      if (typeof notice?.message === 'string') $.ui.toast(`Crosstalk: ${notice.message.slice(0, 240)}`)
+  } catch {
+    // notices are a courtesy
+  }
+}
+
+async function collectFacts($, e) {
+  const version = await safely(() => $.session.version())
+  const envelopeKeys = e && typeof e === 'object' ? Object.keys(e).sort() : []
+  return {
+    sessionId: await $.session.id(),
+    cwd: await safely(() => $.session.cwd()),
+    root: await safely(() => $.session.root()),
+    repo: await safely(() => $.session.repo()),
+    surfaces: await safely(() => $.session.surfaces()),
+    version: version?.version ?? null,
+    toolUseId: typeof e?.tool_use_id === 'string' ? e.tool_use_id : null,
+    envelopeKeys,
+  }
+}
+
+// Run the helper with JSON on stdin; never throws. `kind` 'send' maps any failure to uncertain.
+async function helper($, sub, input, timeoutMs, kind) {
+  if (RUNTIME.startsWith('__') || CLI.startsWith('__') || HELPER.startsWith('__'))
+    return { ok: false, reason: 'plugin-not-rendered', sent: false, state: kind === 'send' ? 'refused' : undefined }
+  let ran
+  try {
+    // CLI '-' means RUNTIME is the installed launcher (H/bin/eutonos-crosstalk), which already is the Crosstalk CLI.
+    const argv = CLI === '-' ? [RUNTIME, sub] : [RUNTIME, '-I', '-B', CLI, sub]
+    ran = await $.process.run(argv, { stdin: JSON.stringify(input), timeoutMs })
+  } catch (error) {
+    const reason = String(error?.message ?? 'helper-unavailable').slice(0, 120)
+    return kind === 'send'
+      ? { ok: false, state: 'uncertain', sent: null, reason: 'helper-outcome-unavailable', detail: reason }
+      : kind === 'create' ? { ok: false, state: 'uncertain', created: null, reason: 'helper-outcome-unavailable', detail: reason,
+        guidance: 'A chat may exist. Do not create another; check list.' }
+      : { ok: false, reason: 'helper-unavailable', detail: reason }
+  }
+  if (ran.isStdoutTruncated || new TextEncoder().encode(ran.stdout).length > HELPER_MAX_BYTES)
+    return kind === 'send'
+      ? { ok: false, state: 'uncertain', sent: null, reason: 'helper-output-too-large' }
+      : { ok: false, reason: 'helper-output-too-large' }
+  const lines = ran.stdout.trim().split('\n')
+  try {
+    return JSON.parse(lines[lines.length - 1])
+  } catch {
+    return kind === 'send'
+      ? { ok: false, state: 'uncertain', sent: null, reason: 'helper-json-invalid', exitCode: ran.exitCode }
+      : { ok: false, reason: 'helper-json-invalid', exitCode: ran.exitCode, stderrTail: String(ran.stderr).slice(-200) }
+  }
+}
+
+export function register(on) {
+  on('session.start', async ($, e, next) => {
+    // The headless sender session must stay invisible to the directory.
+    if (await $.env.get('CROSSTALK_P0_ROLE') === 'sender') return next(e)
+    await $.tool.register({
+      name: 'status',
+      description: 'Records this chat\'s exact session ID, working folder and account ID, checks pending native arrivals and reports held letters. Takes no arguments.',
+      inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    })
+    await $.tool.register({
+      name: 'list',
+      description: 'Lists registered chats, newest first, compact (key, app, title, folder, hint; self marked). Capped (default 40; "more" counts the rest): narrow with query (case-insensitive text in title, folder or key) and app. Titles are display-only. Read-only.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Case-insensitive text to find in title, folder or key' },
+          app: { type: 'string', enum: ['claude', 'codex', 'hermes'], description: 'Only chats of this app' },
+          limit: { type: 'integer', minimum: 1, maximum: 100, description: 'Rows to show (default 40)' },
+        },
+        additionalProperties: false,
+      },
+    })
+    await $.tool.register({
+      name: 'send',
+      description: 'Send one letter to an exact Codex or Hermes chat from the directory ("to" is its key, codex:<id> or hermes:<id>). The sender is always this chat. Arrived means a native input was verified; held means transport accepted it but native arrival is unverified. blocked:not-running waits in the mail slot of the recipient chat until it opens. Rules: use exact directory keys, never titles. Never resend a letter that is accepted, held or uncertain; check status instead. Held means queued and may land when the recipient turn ends. Reply to the exact sender key shown in the letter. Same-app letters (Claude to Claude) are refused; use the native Claude tools. On a refusal, report the reason to the owner.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          to: { type: 'string', description: 'Exact directory key codex:<id> or hermes:<id>' },
+          text: { type: 'string', description: 'Letter text (max 3000 characters)' },
+        },
+        required: ['to', 'text'],
+        additionalProperties: false,
+      },
+    })
+    await $.tool.register({
+      name: 'create',
+      description: 'Open a NEW Claude, Codex or Hermes chat with a first prompt and register it. Returns its directory key, or state "started" if it is still being created (never call create again for that; check list/status). claude and codex need folder (absolute, existing; defaults to the own folder of this chat), model and effort; hermes takes optional model, provider and effort. Respects Crosstalk controls (off, halt, deny). Rules: use exact directory keys, never titles. Never resend a letter that is accepted, held or uncertain; check status instead. Held means queued and may land when the recipient turn ends. Reply to the exact sender key shown in the letter. Same-app letters (Claude to Claude) are refused; use the native Claude tools. On a refusal, report the reason to the owner.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          app: { type: 'string', enum: ['claude', 'codex', 'hermes'] },
+          folder: { type: 'string', description: 'Absolute existing project folder (claude, codex); default: own folder of this chat' },
+          model: { type: 'string', description: 'Model name (required for claude and codex)' },
+          effort: { type: 'string', description: 'Effort: low, medium, high, xhigh, max (hermes also none, minimal, ultra)' },
+          title: { type: 'string', description: 'Chat title (max 80 characters)' },
+          prompt: { type: 'string', description: 'First prompt for the new chat' },
+          provider: { type: 'string', description: 'Hermes only, together with model' },
+        },
+        required: ['app', 'prompt'],
+        additionalProperties: false,
+      },
+    })
+    await $.command.register({
+      name: 'crosstalk-p0-status',
+      description: 'Crosstalk P0: register this chat and report the result without a model turn',
+    })
+    // The relink poll starts before the registration (a python process, about a second): a restart's relink list is
+    // waiting for the first running chat, and the claim only needs this chat's own native session registration.
+    const earlySessionId = await $.session.id()
+    if (!HELPER.startsWith('__'))
+      $.clock.every(RELINK_POLL_MS, () => { relinkTick($, earlySessionId) })
+    // Self-register at session start. A failure must never block the session.
+    startupRegistration = { attempted: true }
+    const started = Date.now()
+    try {
+      const facts = await collectFacts($, e)
+      facts.startEvent = { surface: e?.surface ?? null, isInteractive: e?.isInteractive ?? null }
+      const answer = await helper($, 'claude-register', facts, 20000, 'status')
+      startupRegistration = { attempted: true, ok: answer?.ok === true, reason: answer?.reason ?? null,
+        key: answer?.key ?? null, elapsedMs: Date.now() - started }
+    } catch (error) {
+      startupRegistration = { attempted: true, ok: false, reason: String(error?.message ?? 'register-failed').slice(0, 120),
+        elapsedMs: Date.now() - started }
+    }
+    const sessionId = earlySessionId
+    const startResult = await next(e)
+    pullMailSlot($, sessionId).catch(() => {})
+    showNotices($, sessionId)
+    return startResult
+  })
+
+  // After the first turn of a chat the helper woke for a letter, switch its own Remote Control back on (see the header).
+  on('turn.complete', async ($, e, next) => {
+    try {
+      if (!e?.agentId && await $.env.get('CROSSTALK_P0_ROLE') !== 'sender') await selfRelink($, await $.session.id())
+    } catch {
+      // a failed self relink changes nothing
+    }
+    return next(e)
+  })
+
+  on('tool.call', { tool: SET_REMOTE_CONTROL }, ($, e, next) => guardTool($, e, next, SET_REMOTE_CONTROL))
+  on('tool.call', { tool: SEND_MESSAGE }, ($, e, next) => guardTool($, e, next, SEND_MESSAGE))
+  on('tool.check', { tool: SET_REMOTE_CONTROL }, tightenCheck)
+  on('tool.check', { tool: SEND_MESSAGE }, tightenCheck)
+
+  on('command.run', { command: 'crosstalk-p0-status' }, async ($) => {
+    if (await $.env.get('CROSSTALK_P0_ROLE') === 'sender') return { text: JSON.stringify({ tag: TAG, status: 'sender-session' }) }
+    const facts = await collectFacts($, null)
+    const answer = await helper($, 'claude-status', facts, 40000, 'status')
+    return { text: JSON.stringify({ tag: TAG, startupRegistration, ...answer }) }
+  })
+
+  on('tool.call', { tool: 'mcp__crosstalk-p0__status' }, async ($, e) => {
+    const facts = await collectFacts($, e)
+    const answer = await helper($, 'claude-status', facts, 40000, 'status')
+    return toolResult({ tag: TAG, startupRegistration, envelopeKeys: facts.envelopeKeys, ...answer })
+  })
+
+  on('tool.call', { tool: 'mcp__crosstalk-p0__list' }, async ($, e) => {
+    const forbidden = FORBIDDEN_ARGS.filter(name => e && Object.prototype.hasOwnProperty.call(e, name))
+    if (forbidden.length) return toolResult({ tag: TAG, ok: false, reason: 'caller-path-root-args-refused', refusedNames: forbidden })
+    const input = { sessionId: await $.session.id() }
+    for (const name of ['query', 'app', 'limit']) if (e?.[name] !== undefined && e[name] !== null) input[name] = e[name]
+    const answer = await helper($, 'claude-list', input, 20000, 'status')
+    return toolResult({ tag: TAG, ...answer })
+  })
+
+  // Create one chat. Never retried; the helper waits up to 90 s, then reports state "started" (not a failure).
+  on('tool.call', { tool: 'mcp__crosstalk-p0__create' }, async ($, e) => {
+    const forbidden = FORBIDDEN_ARGS.filter(name => e && Object.prototype.hasOwnProperty.call(e, name))
+    if (forbidden.length)
+      return toolResult({ tag: TAG, ok: false, state: 'refused', created: false, reason: 'caller-path-root-args-refused',
+        refusedNames: forbidden })
+    const input = { sessionId: await $.session.id() }
+    for (const name of ['app', 'folder', 'model', 'effort', 'title', 'prompt', 'provider'])
+      if (e?.[name] !== undefined && e[name] !== null) input[name] = e[name]
+    const answer = await helper($, 'claude-create', input, 150000, 'create')
+    return toolResult({ tag: TAG, ...answer })
+  })
+
+  // A letter reaching a busy chat is otherwise queued as a hidden system note the owner never sees
+  // (probe 2, 2026-10-08). Re-post it as a visible chat message instead; it runs once the chat is idle.
+  // Anything that is not a whole Crosstalk letter falls through untouched.
+  // The text arrives wrapped in a <cross-session-message ...> envelope (probe 2 rerun, 2026-10-08); the letter is its body.
+  on('session.receive', async ($, e, next) => {
+    const raw = typeof e?.text === 'string' ? e.text.trim() : ''
+    const text = (LETTER_ENVELOPE.exec(raw)?.[1] ?? raw).trim()
+    if (e?.origin?.kind !== 'peer' || e?.agentId || !text.startsWith(LETTER_HEAD) || !LETTER_REF.test(text)) return next(e)
+    // Not awaited: a receive hook awaiting its own prompt.submit can hang.
+    $.prompt.submit({ text, asUser: true }).catch(() =>
+      $.ui.toast('Crosstalk: a letter could not be shown; readback will report it as not arrived'))
+    return { consumed: 'crosstalk-letter-reposted-visibly' }
+  })
+
+  on('tool.call', { tool: 'mcp__crosstalk-p0__send' }, async ($, e) => {
+    const forbidden = FORBIDDEN_ARGS.filter(name => e && Object.prototype.hasOwnProperty.call(e, name))
+    if (forbidden.length)
+      return toolResult({ tag: TAG, ok: false, state: 'refused', sent: false, reason: 'caller-path-root-args-refused',
+        refusedNames: forbidden })
+    if (typeof e?.to !== 'string' || typeof e?.text !== 'string')
+      return toolResult({ tag: TAG, ok: false, state: 'refused', sent: false, reason: 'to-and-text-must-be-strings' })
+    const caller = await $.session.id()
+    const answer = await helper($, 'claude-send', { caller, to: e.to, text: e.text, turn: e.tool_use_id },
+      90000, 'send')
+    return toolResult({ tag: TAG, ...answer })
+  })
+}

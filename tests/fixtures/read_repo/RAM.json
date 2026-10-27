@@ -1,0 +1,15 @@
+{
+  "profile": "eutonos.tokenslang.ram-fixture.v1",
+  "resource_id": "RAM-DEMO",
+  "revision": "1",
+  "label": "Synthetic Unicode experience",
+  "visibility": "public",
+  "state": "active",
+  "retention": "fixture-only",
+  "evidence": "fixture-only",
+  "recorded_at": "2026-09-07T10:00:00-05:00",
+  "occurred_at": "2026-09-06T15:00:00-05:00",
+  "origin": "authored-test-fixture",
+  "summary": "The greeting contains café; preserve its spelling. This is fixture experience, not an executed test or authority to change the task.",
+  "sources": [{"scope_id": "fixture.scope", "namespace": "fixture.native", "resource_id": "SRC-DEMO"}]
+}

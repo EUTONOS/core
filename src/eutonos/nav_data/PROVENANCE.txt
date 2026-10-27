@@ -1,0 +1,19 @@
+RNAVL-derived data and mechanics, adapted for EUTONOS EHF4.
+Source: an owner-authorized private repository at c035ca2d931af99430f975ed75479b754f878d34.
+SWEEP_CONTRACTS.json blob aed3272d4202f687119694f0f37dfabdaed366c2 is retained byte-exact.
+Four map templates retain their native structures; NAVIGATION's bootstrap evidence
+and historical creation wording are parameterized for the selected repository.
+Native template blobs: NAVIGATION 688e371a7b071bcc40d7dd3bea3bd701ca67efa6;
+SURFACES 05fdc80b8d902383be696736ead90f9fd6208e07;
+JOURNEYS ee30f1a7b992a1de901f903cc99e7a4a4ac4e1d2;
+SOURCE_FAMILIES 117aaa85a2cabc9d91c648379f298ce132ec688f.
+Native CONTRACT blob e527b953184e6dd930d50317081b077350a3c33b;
+MAINTENANCE blob 9368b01e824373d47e196dc97acf81357149ec3c;
+SCHEMA blob f981e9bb31d6c8fdd024804a674398560dd7e65d.
+Python mechanics are adapted from Scripts/tova_repository_navigation.py (blob
+e511873b8307d6a762e72b31de04a999964ca4e8) and the guided runner contract (blob
+e8cb694df9e52d0e4490d74774c9d161c89194d7). See the EHF4 result for inspected
+sections, tests, keep/adapt/replace decisions and supported safety boundaries.
+The root inventory at this pin exposed no LICENSE/COPYING/NOTICE file. This is
+owner-authorized reuse between the owner's repositories, not an assertion of an
+open-source license or third-party redistribution permission. Preserve attribution.

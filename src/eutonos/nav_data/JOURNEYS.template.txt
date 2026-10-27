@@ -1,0 +1,11 @@
+# Repository Journeys
+
+Status: SEEDED
+Source revision: unresolved
+
+Record user, data, item, and operational lifecycles with entry, transitions,
+state, persistence, failure paths, and terminal conditions.
+
+## Journeys
+
+<!-- Add JRN-* records using SCHEMA.md. -->

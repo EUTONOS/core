@@ -1,0 +1,26 @@
+# Repository Navigation
+
+Status: SEEDED
+Source revision: unresolved
+
+Read this first. Search canonical names and aliases, follow the linked stable
+IDs, then inspect current source before editing.
+
+## Common Requests
+
+| Human request | Start at | Why |
+| --- | --- | --- |
+| Add routes during source review | `GAP-bootstrap` | Replace the bootstrap Gap with reviewed records. |
+
+## Areas, Systems, And Gaps
+
+### `GAP-bootstrap` Navigation map not yet reviewed
+- Kind: gap
+- Aliases: missing map; bootstrap gap
+- Summary: Source-backed repository areas and systems have not yet been established.
+- Evidence: {{GOVERNING_SOURCE}}
+- Related: none
+- Review: gap
+- Revision: unresolved
+- History: Retained RNAVL bootstrap identity; source review pending.
+- Trigger: Complete the source-family construction stage.

@@ -1,0 +1,57 @@
+{
+  "profile": "eutonos.component.v1",
+  "id": "crosstalk",
+  "name": "Crosstalk",
+  "version": "1.0.0",
+  "kind": "bundled",
+  "requires": {
+    "eutonos": ">=0.5",
+    "components": [
+      "core"
+    ],
+    "os": [
+      "windows",
+      "macos"
+    ],
+    "apps": [
+      "claude",
+      "codex"
+    ],
+    "tools": []
+  },
+  "default": "on",
+  "gate": null,
+  "kit": "kits/crosstalk",
+  "entry": {
+    "plan": "eutonos.component_crosstalk:plan",
+    "apply": "eutonos.component_crosstalk:apply",
+    "verify": "eutonos.component_crosstalk:verify",
+    "remove": "eutonos.component_crosstalk:remove"
+  },
+  "permissions": [
+    "claude-launch-auto",
+    "set-remote-control",
+    "send-message",
+    "native-send-message",
+    "crosstalk-reply",
+    "letter-rule",
+    "codex-mcp-block",
+    "org-channels",
+    "claude-chat-copy"
+  ],
+  "consent_lines": [
+    "claude-launch-auto",
+    "set-remote-control",
+    "send-message",
+    "native-send-message",
+    "crosstalk-reply",
+    "letter-rule",
+    "codex-mcp-block",
+    "org-channels",
+    "claude-chat-copy"
+  ],
+  "licence": {
+    "required": false,
+    "check": null
+  }
+}

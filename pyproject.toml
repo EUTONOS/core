@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eutonos"
+dynamic = ["version"]
+description = "EUTONOS TokenSlang core and explicit guarded project setup"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+eutonos-tests = "eutonos.user_tests_cli:main"
+eutonos-skills = "eutonos.skills_cli:main"
+eutonos-version = "eutonos.release:main"
+eutonos = "eutonos.cli:main"
+eutonos-docs = "eutonos.docs_cli:main"
+eutonos-nav = "eutonos.nav_cli:main"
+eutonos-ram = "eutonos.ram_cli:main"
+eutonos-communication = "eutonos.communication_cli:main"
+eutonos-host = "eutonos.host_cli:main"
+eutonos-setup = "eutonos.setup_cli:main"
+eutonos-install = "eutonos.installer:main"
+eutonos-ram-relevance = "eutonos.ram_relevance_cli:main"
+eutonos-boards = "eutonos.boards_cli:main"
+eutonos-goals = "eutonos.goals_cli:main"
+eutonos-goal-context = "eutonos.goal_context:main"
+eutonos-personal = "eutonos.personal_cli:main"
+eutonos-device-repositories = "eutonos.device_repositories_cli:main"
+eutonos-assignments = "eutonos.assignments_cli:main"
+eutonos-delivery = "eutonos.delivery_summary_cli:main"
+eutonos-repository-state = "eutonos.repository_state_cli:main"
+eutonos-write-retry = "eutonos.write_retry_cli:main"
+eutonos-attribution = "eutonos.companion_attribution_cli:main"
+eutonos-measurement = "eutonos.measurement_cli:main"
+eutonos-metric-index = "eutonos.metric_index_cli:main"
+eutonos-dashboard = "eutonos.dashboard_cli:main"
+eutonos-workflow = "eutonos.workflow_cli:main"
+eutonos-settings = "eutonos.settings_cli:main"
+eutonos-companion = "eutonos.companion_control:main"
+eutonos-hook = "eutonos.role_hooks:main"
+eutonos-ram-capture = "eutonos.companion_ram_capture:main"
+eutonos-capture = "eutonos.companion_capture:main"
+eutonos-crosstalk = "eutonos.kits:crosstalk_main"
+eutonos-simon = "eutonos.simon_launch:main"
+
+[project.gui-scripts]
+eutonos-desktop-companion = "eutonos.desktop_companion_runtime:main"
+eutonos-crosstalk-helper = "eutonos.kits:crosstalk_helper_main"
+eutonos-crosstalk-mcp = "eutonos.kits:crosstalk_mcp_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+eutonos = ["release.json", "permissions.json", "rule_index.json", "nav_data/*.json", "nav_data/*.txt", "dashboard_static/*", "dashboard_assets/*", "desktop_companion_probe.ps1", "components/*.json", "checklists/*.md", "templates/*.md", "offers/*.json", "runtime_wheels/*.whl"]
+
+[tool.setuptools.dynamic]
+version = {attr = "eutonos.__version__"}
+
+# Kits the wheel carries as data under eutonos/kits/<name>/ (tools/build_wheel.py stages git-tracked, clean files).
+[tool.eutonos.kits]
+crosstalk = "tools/crosstalk"
+simon = "tools/simon"

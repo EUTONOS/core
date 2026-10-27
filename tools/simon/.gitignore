@@ -1,0 +1,55 @@
+# Local runtime evidence and command bridge state
+.runtime/
+
+# Local Python environments and generated caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Local agent/editor state
+.agents/
+.codex/
+.idea/
+.vscode/
+
+# One-run payloads and local scratch files
+_tmp_*.json
+tmp_*.json
+*.tmp
+*.bak
+*.swp
+/tmp/
+/temp/
+/*.log
+/*.out
+/*.err
+
+# Local-only backups; Git owns source history after Slice 1
+snapshots/
+
+# Unrelated user-owned payload pending verified relocation
+PCM Course/
+
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+*.p12
+*.key
+*.kdbx
+/secrets/
+/credentials/
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

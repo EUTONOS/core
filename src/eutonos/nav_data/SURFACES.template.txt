@@ -1,0 +1,11 @@
+# Repository Surfaces
+
+Status: SEEDED
+Source revision: unresolved
+
+Human-addressable screens, pages, routes, commands, APIs, scenes, and
+meaningful interactions belong here. Decorative labels do not.
+
+## Surfaces And Interactions
+
+<!-- Add SURF-* and INT-* records using SCHEMA.md. -->

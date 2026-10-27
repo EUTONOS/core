@@ -1,0 +1,37 @@
+{
+  "profile": "eutonos.component.v1",
+  "id": "companion",
+  "name": "EUTONOS companion",
+  "version": "1.0.0",
+  "kind": "bundled",
+  "requires": {
+    "eutonos": ">=0.5",
+    "components": [
+      "core"
+    ],
+    "os": [
+      "windows",
+      "macos"
+    ],
+    "apps": [],
+    "tools": []
+  },
+  "default": "on",
+  "gate": {
+    "slice": "stage-56aaddd37626",
+    "reason": "held on macOS until IPC8 (the Mac installer); on for Windows"
+  },
+  "kit": null,
+  "entry": {
+    "plan": "eutonos.component_companion:plan",
+    "apply": "eutonos.component_companion:apply",
+    "verify": "eutonos.component_companion:verify",
+    "remove": "eutonos.component_companion:remove"
+  },
+  "permissions": [],
+  "consent_lines": [],
+  "licence": {
+    "required": false,
+    "check": null
+  }
+}

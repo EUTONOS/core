@@ -1,0 +1,7 @@
+<!-- DRAFT wording: pending the owner's sort review (slice-1fc5a4326f08). Replace the text below, keep it short and user-agnostic (no names, usernames, personal paths or emails), and use only the tokens that memory_instructions.TOKENS lists. Leading comments like this one are authoring notes: the renderer drops them, so they never reach a user's file. The heading line is owned by memory_instructions.TITLE. -->
+EUTONOS put this block in {{file}} so {{harness}} can find its way around the installed tooling. It is a short pointer, not a rulebook, and it can lag the installed version.
+
+- Inside a repository that has its own AGENTS.md or CLAUDE.md, read that file first. It owns that repository's rules and wins over this block.
+- EUTONOS is installed at {{eutonos}}. Its commands are on the user's PATH: `eutonos doctor` (read-only check of what is installed), `eutonos-settings status` (how work is routed) and `eutonos-crosstalk status`. A repository that is a EUTONOS source checkout uses its own `python tools/...` commands instead; that checkout's AGENTS.md says which.
+- Chats in other apps (Claude, Codex, Hermes) are reached through Crosstalk: use {{crosstalk_tools}}. Work inside one app uses that app's own native tools. The Crosstalk block in this file has the full rules; check status before resending any letter.
+- If the user says "stop", "stop ping-pong" or "stop the mailman", run `eutonos-crosstalk halt` at once and confirm `controls.halt` is true in `eutonos-crosstalk status`.

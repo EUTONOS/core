@@ -1,0 +1,36 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync('src/eutonos/dashboard_static/app.js','utf8');
+const ctx=vm.createContext({state:{workHorizon:'active',campaignPage:0,campaignSort:'priority'},Intl,Date});
+ctx.content={addEventListener(){}};
+ctx.esc=v=>String(v??'');ctx.num=v=>String(v??0);ctx.tag=v=>`[${v}]`;ctx.heading=(a,b)=>`<h1>${a}</h1><p>${b}</p>`;ctx.empty=(a,b)=>`EMPTY:${a}:${b}`;
+function evaluate(startMarker,endMarker){
+  const start=source.indexOf(startMarker),end=source.indexOf(endMarker,start);
+  assert.ok(start>=0&&end>start,`Could not locate app.js range ${startMarker} to ${endMarker}`);
+  vm.runInContext(source.slice(start,end),ctx);
+}
+evaluate('function progressInfo','function workList');
+const info=vm.runInContext('progressInfo',ctx),bar=vm.runInContext('progressBar',ctx);
+assert.equal(info({status:'active'}).percent,null);assert.match(bar({id:'u',title:'Unknown',status:'active'}),/Not estimated/);
+assert.equal(info({status:'active',extensions:{progress:{percent:0,basis:'baseline'}}}).percent,0);
+assert.equal(info({status:'active',extensions:{progress:{percent:59,basis:'reviewed'}}}).percent,59);
+assert.equal(info({status:'completed'}).percent,100);
+assert.match(bar({id:'c',title:'Complete',status:'completed'}),/100% complete/);
+assert.equal(info({status:'cancelled',extensions:{progress:{percent:37,basis:'Stopped by owner'}}}).percent,37);
+assert.match(bar({id:'x',title:'Cancelled',status:'cancelled',extensions:{progress:{percent:37,basis:'Stopped by owner'}}}),/Stopped at 37%/);
+evaluate('function campaignDateInfo','function boards(p)');
+const list=vm.runInContext('campaignListV2',ctx),items=[];
+for(let i=0;i<55;i++)items.push({id:`C${i}`,type:'campaign',title:`Campaign ${i}`,summary:'Summary',status:'active',priority:55-i,owner_path:'BOARD.md'});
+items.push({id:'cancelled',type:'campaign',title:'Cancelled campaign',summary:'',status:'cancelled',priority:1,owner_path:'BOARD.md',extensions:{progress:{percent:42},work_history:[{status:'cancelled',date:'2026-10-08',why:'No longer needed.'}]}});
+let html=list({modules:{boards:{items}}});assert.equal((html.match(/class="card campaign-row"/g)||[]).length,50);assert.match(html,/Page 1 of 2/);assert.ok(html.indexOf('Campaign 54')<html.indexOf('Campaign 53'));
+ctx.state.campaignSort='name';ctx.state.campaignPage=0;html=list({modules:{boards:{items:[{id:'n',type:'campaign',title:'Zulu',summary:'',status:'active',work_lane:'next',owner_path:'BOARD.md'},{id:'c',type:'campaign',title:'Alpha',summary:'',status:'active',work_lane:'current',owner_path:'BOARD.md'}]}}});assert.ok(html.indexOf('Alpha')<html.indexOf('Zulu'));
+ctx.state.campaignSort='date';html=list({modules:{boards:{items:[{id:'u',type:'campaign',title:'Unknown date',summary:'',status:'active',owner_path:'BOARD.md'},{id:'d',type:'campaign',title:'Dated',summary:'',status:'active',recorded_on:'2026-01-01',owner_path:'BOARD.md'}]}}});assert.ok(html.indexOf('Dated')<html.indexOf('Unknown date'));
+ctx.state.workHorizon='done';ctx.state.campaignPage=0;html=list({modules:{boards:{items}}});assert.match(html,/Done/);assert.doesNotMatch(html,/Campaign 0|Cancelled campaign/);
+ctx.state.workHorizon='cancelled';html=list({modules:{boards:{items}}});assert.match(html,/Cancelled campaign/);assert.match(html,/Stopped at 42%/);assert.match(html,/Cancelled 2026-10-08 · No longer needed/);
+evaluate('function workOrder','const skillViews');
+const order=vm.runInContext('workOrder',ctx),ordered=[{id:'c',title:'Current',summary:'',type:'slice',status:'active'},{id:'n',title:'Next',summary:'',type:'quick',status:'planned'},{id:'x',title:'Cancelled',summary:'',type:'quick',status:'cancelled'},{id:'s',title:'Superseded',summary:'',type:'slice',status:'superseded'}];
+for(let i=0;i<52;i++)ordered.push({id:`q${i}`,title:`Done quick ${i}`,summary:'',type:'quick',status:'completed'});
+ordered.push({id:'feature',title:'Catalog feature',summary:'',type:'feature',status:'completed'},{id:'stage',title:'Campaign stage',summary:'',type:'stage',parent_id:'c',status:'completed'});
+html=order({modules:{boards:{items:ordered,work_order:{configured:true,revision:'r1',current:['c'],next:['n']}}}});
+assert.ok(html.indexOf('<h2>Active</h2>')<html.indexOf('<h2>Not active</h2>'));assert.ok(html.indexOf('<h2>Not active</h2>')<html.indexOf('<h2>Done</h2>'));assert.ok(html.indexOf('<h2>Done</h2>')<html.indexOf('<h2>Cancelled</h2>'));assert.match(html,/Replaced/);
+assert.doesNotMatch(html,/Catalog feature|Campaign stage/);assert.match(html,/Page 1 of 2/);
+console.log('Dashboard lifecycle: progress states, campaign sorting/pagination and work-order grouping passed.');

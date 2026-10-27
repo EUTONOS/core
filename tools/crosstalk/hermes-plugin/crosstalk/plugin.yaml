@@ -1,0 +1,3 @@
+name: crosstalk
+version: "0.3.0"
+description: EUTONOS Crosstalk for Hermes (slice 3B.12). Tools crosstalk_status, crosstalk_list and crosstalk_send let this chat send letters to the owner's Claude and Codex chats, and an inbox listener injects letters from them into an open Hermes chat as a user message.

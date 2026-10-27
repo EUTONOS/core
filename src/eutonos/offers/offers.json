@@ -1,0 +1,954 @@
+{
+  "items": [
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "cap-bounded-delegation",
+      "status": "completed",
+      "summary": "Supports advisory role routing, same-harness native spawn descriptors, and cross-app chat creation through Crosstalk, with optional validated caller session/work IDs forwarded as provenance; caller metadata does not grant launch authority.",
+      "title": "Bounded delegation",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "feature-f1ec3e15b276",
+      "status": "completed",
+      "summary": "Compact chat list, send and status tools in Claude, Codex and Hermes, plus create-claude and create-codex commands that open a new chat in a chosen folder with an exact model and effort, a durable receipt and a clean refusal for an unknown model or a mismatched Claude account.",
+      "title": "Crosstalk chat tools and new-chat creation",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "feature-91e01b4c2a79",
+      "status": "completed",
+      "summary": "A background helper registers new chats, wakes a stopped chat so a waiting letter is taken, relinks chats after a Desktop restart and can archive or rename a chat in another app. It acts only to wake or open chats; running chats stay in the background.",
+      "title": "Crosstalk helper (wake and relink)",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "feature-a928d9480724",
+      "status": "completed",
+      "summary": "A message from one chat lands in another as a normal, visible message addressed to an exact chat key (never a title), with queued, held, accepted and replied reported separately. A letter is never resent when its fate is unclear. The scope today is a candidate route: it has passed an owner-run roundtrip and is not yet proven across account switching, app updates or other repositories.",
+      "title": "Crosstalk letters between Claude, Codex and Hermes chats",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "feature-94b578bedbe7",
+      "status": "completed",
+      "summary": "Messaging on/off, a verified halt and a recipient deny list are checked before every new send. The dashboard shows Crosstalk status with the recent letter states (metadata only, never a letter body) and offers Stop, Resume and messaging switches that prove their result by re-reading the control file.",
+      "title": "Crosstalk owner controls and dashboard card",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "feature-26c399536ff0",
+      "status": "completed",
+      "summary": "A Hermes plugin makes a Hermes chat a Crosstalk endpoint: letters for a busy chat are parked and injected at the next tool call or when idle, in send order, and a new Hermes chat registers its creator title before its first turn. It is an install component that depends on Crosstalk.",
+      "title": "Hermes plugin (Crosstalk endpoint)",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "feature-0919a7cea0bb",
+      "status": "completed",
+      "summary": "A launcher starts Claude's remote-control session at login with no window (Startup shortcut on Windows, launchd item on macOS), so new chats can be started from claude.ai/code or the phone app. It is its own install component; the one first-run yes/no prompt is answered by hand.",
+      "title": "Remote Control launcher",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "cap-companion-attribution",
+      "status": "completed",
+      "summary": "Links explicit assignment and native turn identities to observed models, results, review overhead, phase latency, available token categories, and qualified comparisons.",
+      "title": "Request-to-companion attribution",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "current",
+      "id": "feature-10985be27f46",
+      "status": "completed",
+      "summary": "A per-checkout, opt-in setting names the canonical and peer Git sources; the Current Work view and dashboard then show fetched peers' campaigns, tasks and notes next to your own, with source pins and advisory attempts. Observing peers never changes board status or completes work.",
+      "title": "Shared Work (peer sources and common Current Work view)",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "feature-6c54f23a-02af-43c8-9acb-3a9cd229e74a",
+      "status": "completed",
+      "summary": "A dashboard page of the install switches: optional parts on or off, Crosstalk messaging, RAM capture and retrieval, linked Claude accounts and the pending steps a switch could not finish. One read and five writes, each delegated to the owner that already holds the setting (installer, feature_settings, pending_actions). A block that cannot be read reports its own failure without hiding the others, and writes sit behind the dashboard's Host/Origin check and settings token.",
+      "title": "Dashboard Features page (install switches)",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "feature-c50b91131df0",
+      "status": "completed",
+      "summary": "Installed automatic Windows EUTONOS Companion alongside Codex and Claude Desktop: Greek E/attention icon, Docs/RAM receipts, dashboard link, and a popup showing records, Crosstalk and agent activity. The popup only observes, except Crosstalk's own on/off toggle and Stop. Bounded polling without models or manually maintained counters. Legacy context helper removed. Single hidden supervisor starts at sign-in, supports later app starts and recovers coordinator failures; both live badges verified 30 physical pixels higher. Actual sign-in/app restart and dashboard interaction were not forced. See docs/proposals/EUTONOS_DESKTOP_COMPANION.md.",
+      "title": "EUTONOS desktop companion",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "feature-30f6a2a5808f",
+      "status": "completed",
+      "summary": "Two dashboard pages list features (the named parts of EUTONOS) and capabilities (what a person can now get done) with Current and Future tabs, search, category and date sorting, each capability's feature links and the source and evidence of every record. Items are selected by type and status from any configured board owner.",
+      "title": "Features and Capabilities pages",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "cap-metrics-timeline",
+      "status": "completed",
+      "summary": "Projects registered usage, observed thinking levels, benchmark evidence, task attribution, and timelines while keeping unavailable data unknown.",
+      "title": "Metrics and timeline",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "cap-readonly-dashboard",
+      "status": "completed",
+      "summary": "Serves a packaged loopback dashboard over native project, work, RAM, NAV, metrics, and version state.",
+      "title": "Read-only dashboard",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "feature-2c3aa1c0fea6",
+      "status": "completed",
+      "summary": "A read-only reader and dashboard page comparing Main with the latest native work across this repository's local refs and worktrees: active work elsewhere, completed work awaiting integration, conflicting records and coverage limits.",
+      "title": "Repository state page and reader",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "feature-aa9c58b012ae",
+      "status": "completed",
+      "summary": "Dashboard settings for routing, worker roles and task rules, role hooks, RAM and tracking, Shared Work and the model catalogue, saved locally and read by the CLI.",
+      "title": "Settings page",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "current",
+      "id": "feature-7e93dee33155",
+      "status": "completed",
+      "summary": "A read-only dashboard page in every install listing EUTONOS's own current and future features and capabilities. tools/build_offers.py generates it from the shipped catalogue into src/eutonos/offers/offers.json, which ships in the wheel and is drift-tested, separate from the user's own project lists.",
+      "title": "What EUTONOS offers page",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "feature-7a92b60c70ad",
+      "status": "completed",
+      "summary": "Adding a repository registers it with the install and its own host; removing one detaches it (reversing this machine's permission effects and registrations while leaving repository files alone) or, under a preservation plan, fully de-adopts it. Dry runs, resume and completion checks are built in.",
+      "title": "Add and remove a repository",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "cap-delivery-summary",
+      "status": "completed",
+      "summary": "Projects current Git disposition, explicit campaign ownership, recorded verification evidence, and authority-qualified commit or publication readiness without writes.",
+      "title": "Delivery summary",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "feature-1d781cc1054e",
+      "status": "completed",
+      "summary": "A read-only doctor report shows what is installed, which components and instruction blocks are present, pending items and the checklist page to follow. A local patch, a patch status line and a post-update self-check let an install repair itself against a written repair checklist.",
+      "title": "EUTONOS doctor and self-repair",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "feature-a125876c2aaa",
+      "status": "completed",
+      "summary": "One shipped list names every approval or setting EUTONOS asks for outside the repository. Each is planned per file, applied only when missing after a backup, recorded as an effect and removed only if the target still holds the recorded bytes. A consent screen (dashboard and Setup.exe) shows the plain-language lines before anything is written; bypass mode is never written.",
+      "title": "Install permissions list and consent screen",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "feature-1b59871a3ffc",
+      "status": "completed",
+      "summary": "One installer, run as eutonos-install or the eutonos lifecycle command, installs, updates, rolls back, uninstalls and resumes EUTONOS in fixed phases (runtime, kits, launchers, effects, plugin). Optional parts are separate components (core, Crosstalk, Hermes plugin, Remote Control launcher, companion, role hooks), each with its own plan, apply, verify and remove, a receipt per phase and a machine lock. An install record lets uninstall reverse exactly what was done.",
+      "title": "Installer, components and install record",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "feature-e5797bc8a22c",
+      "status": "completed",
+      "summary": "Five checklist pages (install, uninstall, add a repository, remove a repository, repair) ship in the wheel with a drift test; the doctor names the page and revision to follow, and the removal commands print their checks and preservation template.",
+      "title": "Lifecycle checklist pages",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "capability-fcc820f57a9b",
+      "status": "completed",
+      "summary": "Connects supported native board/RAM writes and explicitly checked-code closeout to one scoped Git publisher, with separate native/Git outcomes, typed submit/inspect/recover, labeled Settings controls, and mode-aware agent guidance. Automatic publication remains off unless configured; no consumer installation or ASW5 peer fetching/visibility is claimed.",
+      "title": "Opt-in native Git delivery",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "cap-versioned-portable",
+      "status": "completed",
+      "summary": "release.json declares the package version and the shipped module list; release.py reports project and module versions to the dashboard Versions panel. The portable export, its reconciliation queue and the after-closeout rebuild were retired by ISU stage 1 (owner, 2026-10-26).",
+      "title": "Project and module versions",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "feature-faec6254b67f",
+      "status": "completed",
+      "summary": "Updates come from main through named release channels, build a new install generation beside the old one and can be rolled back. A dry run (including per component) plans an install from a scratch copy without writing, and a per-stage install check proves each phase.",
+      "title": "Updates with channels, rollback and install dry run",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "current",
+      "id": "feature-969986e68ba0",
+      "status": "completed",
+      "summary": "EUTONOS installs on Windows through a normal Inno Setup wizard: welcome page, chosen install location with the recommended ~/.eutonos, optional parts, the consent text with an I agree tick (verified by the engine against its own rendering), live progress, a bundled private Python, and an Installed apps entry whose uninstall runs the recorded engine uninstall and stops without deleting anything if that fails. Built by tools/build_setup.py; merged 3524bf40. Support-file repair can restore Setup's declared bundled Python, bootstrap and wheel for an active or interrupted install, then show executable recovery commands without replaying consent or engine phases. Source and synthetic checks only; owner Windows trial remains pending.",
+      "title": "Windows setup app (Setup.exe)",
+      "type": "feature"
+    },
+    {
+      "category": "Foundations",
+      "horizon": "current",
+      "id": "cap-foundation-core",
+      "status": "completed",
+      "summary": "Provides bounded local source reads, exact fingerprints, and guarded cooperative effect plans.",
+      "title": "Foundation core",
+      "type": "feature"
+    },
+    {
+      "category": "Foundations",
+      "horizon": "current",
+      "id": "cap-hub-interface",
+      "status": "completed",
+      "summary": "Exposes available read and semantic operations while preserving native owners and explicit effect boundaries.",
+      "title": "Hub and agent interface",
+      "type": "feature"
+    },
+    {
+      "category": "Foundations",
+      "horizon": "current",
+      "id": "cap-tokenslang-semantics",
+      "status": "completed",
+      "summary": "Validates shared TokenSlang profiles, references, outcomes, and bounded semantic envelopes.",
+      "title": "TokenSlang semantics",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "current",
+      "id": "cap-durable-skills",
+      "status": "completed",
+      "summary": "Search and read explicit task/tool procedures independently of RAM; retain relationships and reported version-specific use counts. Desktop/mobile dashboard verification passed locally.",
+      "title": "Durable skill search",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "current",
+      "id": "cap-nav",
+      "status": "completed",
+      "summary": "Builds and maintains source-grounded navigation records with freshness, history, and bounded progressive reads.",
+      "title": "NAV",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "current",
+      "id": "cap-ram",
+      "status": "completed",
+      "summary": "Stores source-qualified experience with lexical retrieval and exact expansion, and verifies identity/revision-bound child RAM and current article bytes before closeout proof.",
+      "title": "RAM",
+      "type": "feature"
+    },
+    {
+      "category": "Simon",
+      "horizon": "current",
+      "id": "feature-e1a17814-83ce-43bf-99f8-6f05901caaf7",
+      "status": "completed",
+      "summary": "Simon, the Windows desktop-control helper, installs with EUTONOS as an optional part (off by default, Windows only). Its kit is copied into the EUTONOS home with its own Python environment built offline from nine bundled wheels pinned by sha256 (tools/simon/wheels, wheels.lock.json; the build refuses an unlocked wheel). It adds the eutonos-simon command, a skill and instruction block per app, and a consent line listed apart. One Codex rule (simon-codex-rule, declared in permissions.json) is written to ~/.codex/rules/eutonos-simon.rules only while the part is on and removed on disable or uninstall. Live discovery of the skill by Codex and Hermes is not yet checked.",
+      "title": "Simon install part",
+      "type": "feature"
+    },
+    {
+      "category": "Testing",
+      "horizon": "current",
+      "id": "feature-20f0d77515b9",
+      "status": "completed",
+      "summary": "ETT source implemented: three starter templates and custom native setups, guarded agent CLI, snapshot-pinned result history and read-only Tests screen. Focused checks, render fixtures and wheel contents qualified on Windows. The code and the Tests tab ship in the wheel; owner acceptance of the campaign is pending.",
+      "title": "Project user tests and reusable setups",
+      "type": "feature"
+    },
+    {
+      "category": "Testing",
+      "horizon": "current",
+      "id": "feature-523ea70c2ba4",
+      "status": "completed",
+      "summary": "tools/test_shards.py runs the whole suite or a focused subset split across parallel processes balanced by recorded per-file cost, points tests at the checkout's own code, records per-class and slow-test timings and prints a compact summary with every failure. Developer tooling; source checkout only, not in the installed wheel.",
+      "title": "Sharded test runner",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "feature-69d60ca81677",
+      "status": "completed",
+      "summary": "Standalone stdlib scripts: bigsearch for bounded search of huge logs, memory_snapshot to snapshot and restore Claude auto-memory (excluding approval grants), compaction_check for a read-only report of auto-compact limits, and handoff_prompt to render a paste-ready prompt for Codex or Claude. They write no settings. Developer tooling; source checkout only, not in the installed wheel.",
+      "title": "Field-trick scripts (bounded search, memory snapshot, compaction check, handoff prompts)",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "cap-guided-workflow",
+      "status": "completed",
+      "summary": "Guided command discovery, NAV and closeout-debt routes, semantic forms, native work lifecycle, completion checks and managed closeout/RAM receipts. The managed reference-only index supplies owner pointers, reasons, reading tiers and completion/integration precedence. One versioned orient command composes byte-bounded cold-entry/resume context with native work/source/control/instruction/reference pins, explicit gaps and continuation. Caller IDs and search coverage stay unverified; exact RAM pins reject local substitution. Readable fallback and privacy survive unavailable setup. Native owners retain authority; disclosed configured reader fetch/cache effects add no work/RAM/settings write, installation or messaging. Source capability only; installed, model, cross-platform and remote publication qualification remain unclaimed.",
+      "title": "Guided workflow",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "feature-10c4f64336bc",
+      "status": "completed",
+      "summary": "A daily check of fixed official Codex and Claude Code documentation pages and the model lists runs when the dashboard is open. Changed pages become review candidates shown at pickup and on the dashboard; it never edits a policy or the model catalogue by itself.",
+      "title": "Harness policy watch",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "feature-be6ff0cc25e5",
+      "status": "completed",
+      "summary": "Hash-marked blocks in the global Claude and Codex instruction files and a repository's AGENTS.md are installed, refreshed or removed without touching the surrounding bytes: an exact unmarked copy is wrapped in place, a similar copy is left active and listed, an edited block is kept, CRLF is preserved and uninstall restores the earlier paragraph. The Decisions block (owner-ask rule) ships beside the completion contract.",
+      "title": "Managed instruction blocks (completion, Crosstalk and Decisions)",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "feature-222ed9b21cdd",
+      "status": "completed",
+      "summary": "One bounded command (orient) gives a new agent in any harness the repository's rules, the current work and the sources behind them, with coverage and gaps listed and a plain-text fallback when the command is unavailable. It does not prove reading or understanding.",
+      "title": "Orientation command",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "capability-350bc3fb4fe5",
+      "status": "completed",
+      "summary": "Role-specific reminder hooks for live Claude Code and Codex sessions: message, session start, edit nudge, long-turn nudge, and a default-on end-turn pass that blocks once per turn with the role's reminder, the recording policy for a main chat and a retry-within-authority line (no closeout proof check). Dashboard switches, saved hook sets and a metadata-only firing log. See docs/proposals/AWR_ROLE_HOOKS.md. Owner held role hooks from the installer on 2026-10-22 until slice-fe8c09fb-1163-4e9e-bac4-876914ddd824 (roles cleanup) ships; the role-hooks component manifest stays held.",
+      "title": "Role hooks",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "capability-cd4f167a-80f2-4bba-b073-e2fc948977b2",
+      "status": "completed",
+      "summary": "Source CLI foundation for semantic shared goals, private goals/projects/priorities, explicit device enrollment, scoped stable links, revision-bound writes and original-request recovery. Private stores use remote-free Git history and export/restore with preserved identities; generic shared readers refuse private scope. Cooperative local routing; runtime activation, My Page, phone and independent-media qualification remain later work.",
+      "title": "Shared goals and private personal projects",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "feature-source-boards",
+      "status": "completed",
+      "summary": "Guarded board operations and the dashboard read ordered work and product records directly from selected Markdown owners.",
+      "title": "Structured Markdown boards",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "current",
+      "id": "feature-c402b9c8271d",
+      "status": "completed",
+      "summary": "A saved priority list of what to work on next. A row can hold a campaign stage or a group of items that may run at the same time, status is read live from each item, and Current Work, pickup and the dashboard show the rows, the campaign of each stage and which items run together. Each campaign keeps its own stage order and qualification stages run alone.",
+      "title": "Work order (priority list with stage and together rows)",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "future",
+      "id": "feature-09408d8a-d0d8-46d0-9cc1-98b7c7e5a90a",
+      "status": "deferred",
+      "summary": "Transfer an active approved task between supported agents/harnesses, carrying relevant source-pinned context, constraints, unfinished work and evidence. Show what transferred, what did not, and the receiving agent's pickup state. Build on HAO/Crosstalk; transport acceptance alone is not resumed execution.",
+      "title": "Continue in another agent",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "future",
+      "id": "future-latency-coordination",
+      "status": "planned",
+      "summary": "Extend bounded assignments and measured results with better end-to-end coordination evidence.",
+      "title": "Latency and coordination",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "horizon": "future",
+      "id": "future-quiet-portable-delegation",
+      "status": "deferred",
+      "summary": "Add an explicit host lifecycle adapter for quiet event-driven bookkeeping and portable delegation.",
+      "title": "Quiet operation and portable delegation",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-campaign-journey",
+      "status": "planned",
+      "summary": "Explore the recorded history from an idea through checks and delivery.",
+      "title": "Campaign journey",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-change-hotspots",
+      "status": "planned",
+      "summary": "Explore file activity with optional failure, work and evidence overlays.",
+      "title": "Change hotspots and repo activity map",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-cheap-repo-metrics",
+      "status": "planned",
+      "summary": "Reuse bounded Git, file metadata, reports and receipts without extra model calls.",
+      "title": "Cheap repository metrics",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "feature-2932270a180c",
+      "status": "planned",
+      "summary": "Read Claude Code session logs (~/.claude/projects/<project>/<session>.jsonl and <session>/subagents/*.jsonl) alongside the existing Codex collectors; per assistant message they record model, input, cache-creation input, cache-read input, output and thinking tokens. Attribute usage per turn, per subagent and per harness, update as the log grows, and report missing fields as unknown. Feeds AWR6 Work Metrics provider-log cursors and the dashboard token views.",
+      "title": "Claude Code token usage tracking",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-control-center",
+      "status": "planned",
+      "summary": "Build on local settings and boards with clearer delivery guidance and project controls.",
+      "title": "Control center",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "feature-29101fa9-2d5f-4e9f-aeaa-4e034ffe350e",
+      "status": "deferred",
+      "summary": "Tentative owner interest: view agents' assignments, latest meaningful progress, blockers, results and available pause/redirect controls in one dashboard. Extend existing work/usage/Crosstalk projections; distinguish observed activity from inferred status.",
+      "title": "Live agent console",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "feature-7386ba27-37b4-42d5-83b8-f22ea0efa2f0",
+      "status": "deferred",
+      "summary": "Compare models using evidence from ordinary completed tasks: correctness, rework, elapsed time and observed total cost. Owner requires cheap, reliable operation: prefer deterministic aggregation of existing task/check/usage evidence, comparable task classes and visible sample size/unknowns; avoid routine paid benchmark runs or model judges and do not infer superiority from unpaired anecdotes.",
+      "title": "Low-cost model performance scorecards",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-orchestration-accounting",
+      "status": "planned",
+      "summary": "Capture bounded dispatch and observed model metadata without retaining prompt text or inventing attribution.",
+      "title": "Orchestration accounting follow-up",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-primary-companion-relationships",
+      "status": "planned",
+      "summary": "Improve current attribution while keeping unknown primary-to-companion relationships explicit.",
+      "title": "Primary and companion usage relationships",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-repo-health",
+      "status": "planned",
+      "summary": "Explain healthy, warning, alert, unknown and disabled states from scoped evidence.",
+      "title": "Repo Health indicators",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "feature-98341f87f944",
+      "status": "planned",
+      "summary": "Dashboard selects a repository, then one of its checkouts (worktrees) discovered from git, labeled folder, branch or detached commit, last commit date and clean/dirty, and shows that checkout's boards read-only; older record formats are reported, not broken. Branch-only history reads may follow. Linked to RCI (supports RCI-G0 worktree inventory); repository level prepares device-wide management.",
+      "title": "Repository and checkout picker",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-repo-growth",
+      "status": "planned",
+      "summary": "Compare structure and storage growth with explicit scope.",
+      "title": "Repository growth across releases",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-since-last-look",
+      "status": "planned",
+      "summary": "Show new completions, decisions and health changes since a local checkpoint.",
+      "title": "Since you last looked",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-surface-topology",
+      "status": "planned",
+      "summary": "Visualize recorded surfaces, interactions, journeys and source links with explicit coverage.",
+      "title": "Surface and journey topology",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "feature-327a5a71-5951-4614-a26a-bcbba8f24633",
+      "status": "deferred",
+      "summary": "Owner called this really cool: show observed usage and estimated cost for a whole task, including the primary agent, workers and harnesses, with an expandable breakdown. Reuse native usage/attribution data and existing accounting proposals; distinguish measured usage, price estimates, subscription allowances and unknown fields. Avoid duplicate ledgers or inference just to account for cost.",
+      "title": "Task cost meter",
+      "type": "feature"
+    },
+    {
+      "category": "Dashboard",
+      "horizon": "future",
+      "id": "future-turn-timeline-assistance",
+      "status": "planned",
+      "summary": "Build on the timeline and organized closeout with pickup, recovery, verification, and delegation assistance.",
+      "title": "Turn timeline and task assistance",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "future",
+      "id": "future-delivery-journey",
+      "status": "planned",
+      "summary": "Connect recorded work to checked, saved, integrated and published outcomes.",
+      "title": "Delivery journey and stranded work",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "future",
+      "id": "feature-53ce3ee39eec",
+      "status": "planned",
+      "summary": "The same installer flow on macOS: components, consent, launchd items in place of Windows Startup and scheduled tasks, uninstall and reinstall.",
+      "title": "Mac installer",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "future",
+      "id": "feature-1813b9935277",
+      "status": "planned",
+      "summary": "A supported backup of an existing EUTONOS install and its outside-the-repository settings before an install, update or uninstall, with a matching restore.",
+      "title": "Official backup of an existing setup",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "future",
+      "id": "feature-8c281fa7-5276-4a67-a41e-ea54f05e3ef8",
+      "status": "deferred",
+      "summary": "Dashboard actions such as save my progress, compare versions and publish approved changes explain and perform the appropriate Git mechanics under existing authority. Add a beginner-friendly automatic mode through the related coding-experience profile, while showing saved, integrated, published and deployed state separately.",
+      "title": "Plain-language Git controls",
+      "type": "feature"
+    },
+    {
+      "category": "Delivery",
+      "horizon": "future",
+      "id": "feature-dec5bacd-6f05-4150-96a6-a5e968bb9f70",
+      "status": "deferred",
+      "summary": "Assemble selected verified changes, release notes, version information and required artifacts into a reviewable release package, showing missing prerequisites and evidence. Reuse current delivery/build tools; publishing, installation and deployment retain their selected authority.",
+      "title": "Release builder",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "future-atlas-readiness",
+      "status": "deferred",
+      "summary": "Define and prove a source-backed ATLAS module before adoption, packaging, or rollout. Owner decision 2026-10-26: the EUTONOS core stays free; ATLAS is a paid product, distributed separately as a download unlocked by a licence key (no hosted server for now), default off, and never shipped in the free wheel, the public EUTONOS/releases repository or public source.",
+      "title": "ATLAS deployment readiness",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "feature-e1d021ab-b397-4749-9389-c44cef499578",
+      "status": "deferred",
+      "summary": "Search explicitly selected repositories for an existing component that could solve the current problem before building a duplicate. Return exact source, compatibility/dependencies, reuse constraints and gaps; finding a candidate does not authorize copying or changing another project.",
+      "title": "Cross-project component finder",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "future-working-cache",
+      "status": "deferred",
+      "summary": "Evaluate an opt-in provisional cache without creating a polling scribe or second authority.",
+      "title": "EUTONOS working cache",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "future-knowledge-timeline",
+      "status": "planned",
+      "summary": "Browse accumulated decisions, memories and reusable procedures.",
+      "title": "Knowledge timeline",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "future-knowledge-upkeep",
+      "status": "planned",
+      "summary": "Inspect source changes, broken references, recorded use and feedback for RAM, NAV and skills.",
+      "title": "Knowledge upkeep",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "future-nav-graph",
+      "status": "planned",
+      "summary": "Explore NAV records and exposed files through declared related links and source bindings.",
+      "title": "NAV connection graph",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "feature-a0588926-400f-4e0d-8241-03adaa33d4a6",
+      "status": "deferred",
+      "summary": "Tentative owner interest: browse a repository by product feature or concept, such as authentication, settings or delivery, and follow links to implementing code, documents and tests. Extend NAV/ATLAS and existing graph/surface-topology proposals rather than create another source of truth.",
+      "title": "Visual codebase explorer",
+      "type": "feature"
+    },
+    {
+      "category": "Knowledge",
+      "horizon": "future",
+      "id": "future-why-this-exists",
+      "status": "planned",
+      "summary": "Browse explicit links from files and components to decisions, work, tests and memories.",
+      "title": "Why this exists",
+      "type": "feature"
+    },
+    {
+      "category": "Simon",
+      "horizon": "future",
+      "id": "feature-4042c6f4-5106-4e5b-aade-10b7579f5170",
+      "status": "deferred",
+      "summary": "Research when application files can be inspected or transformed more safely than driving the GUI (the Storyline/direct-file research line from Simon). Keep it separate from Simon's UI-helper responsibility and require format understanding, validation, rollback and target-app review before modifying complex proprietary packages.",
+      "title": "Research when direct file manipulation beats driving the GUI",
+      "type": "feature"
+    },
+    {
+      "category": "Simon",
+      "horizon": "future",
+      "id": "feature-bb08d0c1-6348-433d-93db-73f74baf8fb1",
+      "status": "deferred",
+      "summary": "Add app-specific adapter commands only after the generic command/result and verification contracts are stable. Prefer native API, file, DOM or UIA routes inside adapters and keep them fail-closed. Keep app command notes as planner context, not automatic execution authority; track note source, app version, verification status and recheck date, and promote only reviewed or successfully used paths.",
+      "title": "Simon app-specific adapters and durable app-command memory",
+      "type": "feature"
+    },
+    {
+      "category": "Simon",
+      "horizon": "future",
+      "id": "feature-bc871210-b3e7-4ec9-8286-287e70c946fb",
+      "status": "deferred",
+      "summary": "Build a Fake Ribbon App after the reliability campaign if a controlled second target is still the best next proof. Include tabs, dropdowns, modals, text fields, panels, popups, moved or resized windows and blocking states. Use it to compare UI Automation, candidate ranking, OCR, grid recovery and verification before real Storyline-style work.",
+      "title": "Simon controlled-complexity Fake Ribbon App harness",
+      "type": "feature"
+    },
+    {
+      "category": "Simon",
+      "horizon": "future",
+      "id": "feature-411c9d3c-2a58-451e-872f-fc0f8f6a626b",
+      "status": "deferred",
+      "summary": "Ordinary host-console input to VM and remote windows is admitted today (informational detection, ordinary verification), but reliable guest-resident control remains research. Research a guest-resident Simon helper coordinated through a shared-folder queue, a local IPC or network channel, remoting or RDP, or vmrun/VMware Tools bootstrap, and evaluate it if host-console input cannot be verified reliably. No credentials in source or logs; installing a guest helper needs explicit user approval.",
+      "title": "Simon guest-resident VM control",
+      "type": "feature"
+    },
+    {
+      "category": "Simon",
+      "horizon": "future",
+      "id": "feature-3eb3d350-908e-44d9-9de7-b1e619c35558",
+      "status": "deferred",
+      "summary": "Add local OCR to Simon only after backend/UI Automation work shows where text remains inaccessible (roadmap: Windows built-in OCR engine via a WinRT binding, and either implement observe.ocr or retire it; it returns UNAVAILABLE today). Use OCR as provenance-labeled planner and verification evidence, never blind click authority. Save crops or templates from successful actions only as untrusted candidates; promote a visual target only with an expected app state or region, a confidence margin, repeated verified success, negative examples and human approval. Related deferred additions pending UIA gap evidence and an owner decision: recovery.click_image_point in delivered-image pixel space, right_click and explicit double_click through the single-press verified path.",
+      "title": "Simon local OCR as provenance-labeled evidence",
+      "type": "feature"
+    },
+    {
+      "category": "Simon",
+      "horizon": "future",
+      "id": "feature-73652c50-54b3-491c-9f22-5bf55b00f39c",
+      "status": "deferred",
+      "summary": "Packaging has shipped (see the completed Simon install part). Still to do: define supported Windows versions beyond today's Windows-only part, Simon-specific update and recovery, telemetry retention and redaction, permission and elevation UX, and a threat model. Add explicit user-visible session authority, action audit and privacy controls. Evaluate multi-client scheduling only after single-client cancellation, ordering and security are proven. Decide whether Simon stays a developer POC, becomes a reusable local service, or is retired after the experiment answers its reliability question.",
+      "title": "Simon productization: supported platforms, audit and privacy controls",
+      "type": "feature"
+    },
+    {
+      "category": "Testing",
+      "horizon": "future",
+      "id": "feature-8173ae5b-69dc-483d-a2b5-a4528bd3e316",
+      "status": "deferred",
+      "summary": "Launch an isolated temporary preview of an unfinished feature for owner review before integration. Bind the preview to its exact changes and prerequisites, isolate real data and external effects, and clean up disposable environments after preserving useful feedback.",
+      "title": "Feature preview environments",
+      "type": "feature"
+    },
+    {
+      "category": "Testing",
+      "horizon": "future",
+      "id": "future-verification-groups",
+      "status": "planned",
+      "summary": "Retain reusable scoped test-group results and show changes since the last applicable run.",
+      "title": "Grouped test results and changes since verification",
+      "type": "feature"
+    },
+    {
+      "category": "Testing",
+      "horizon": "future",
+      "id": "feature-08140b34-f587-4df8-a16e-b715adbcdb43",
+      "status": "deferred",
+      "summary": "Compare before/after UI screenshots beside the owner request and changed component, with links to the actual build and capture evidence. Make visual regressions and mismatched intent easy to inspect; screenshots do not substitute for functional checks.",
+      "title": "Visual change viewer",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "future-agent-task-guide",
+      "status": "planned",
+      "summary": "Extend command discovery, guided closeout, and board forms into broader task assistance.",
+      "title": "Agent task guide and generated forms",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "feature-9220a246008f",
+      "status": "deferred",
+      "summary": "Owner future candidate, 2026-10-04: proactively generate compacted snapshots from stable context generations while execution continues, then rebase the live tail onto the newest valid compacted generation at a safe work boundary. Evaluate in a future context/runtime stage after API capability qualification; do not add a blocker to current reconciliation or RCI. First prove supported context replacement and tail replay on the intended backend. Preserve exact ordering, tool-call/result pairing, user corrections, pending work, authority and cancellation; reject stale or invalid generations and retain an uncompacted fallback. Compare latency, fidelity and total cost against ordinary compaction before adopting. No implementation or paid experiment is admitted by this entry.",
+      "title": "Asynchronous checkpointed compaction",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "feature-89729708-0b2b-442d-82ed-9894db972c3c",
+      "status": "deferred",
+      "summary": "Capture owner-recorded audio notes or ideas on project boards, retain playable clips with editable transcripts, and let the owner attach or convert them to a task or idea. The owner described audio boards or notes while selecting feature 26; preserve this separate voice-capture interpretation as well as budgeted work queues. Show transcription cost/availability and owner control over retention; recording a note does not start the task.",
+      "title": "Audio boards and voice notes",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "feature-dc371814-a4c2-47a8-a1a3-23c386aa6bcf",
+      "status": "deferred",
+      "summary": "Queue approved work with explicit spending, elapsed-time or retry limits and an owner-decision pause when a limit is reached. Preserve checkpoint and in-flight/uncertain effects; unavailable usage data must not appear as a precise enforced dollar cap. Retain separately from the owner's accompanying audio-board/notes idea.",
+      "title": "Budgeted work queue",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "feature-ff7d747c-df45-4bfc-9179-62b1802a756a",
+      "status": "deferred",
+      "summary": "A dashboard setting lets the owner select coding experience, from beginning conversational/vibe coder to experienced developer. The profile adjusts explanation depth, technical prompts and which routine engineering/Git tasks agents handle automatically. Apply consistent behavior through managed AGENTS.md/CLAUDE.md guidance and supported hooks, with visible effective settings and an override. Reuse delivery and Invisible Engineering Discipline foundations; experience level changes assistance, not permission for destructive or external actions.",
+      "title": "Coding-experience automation profiles",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "future-campaign-code-length",
+      "status": "planned",
+      "summary": "Prefer readable three- or four-letter codes, allow longer codes and preserve existing IDs.",
+      "title": "Flexible campaign reference codes",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "feature-42abb8147d61",
+      "status": "planned",
+      "summary": "Managed EUTONOS instruction blocks for harnesses beyond Claude, Codex and Hermes, with a checklist and a Crosstalk setup guide for each new harness.",
+      "title": "Instruction block for any other harness",
+      "type": "feature"
+    },
+    {
+      "category": "Workflow",
+      "horizon": "future",
+      "id": "feature-0744a7ae-d02d-4b61-aa79-4f4b4166339e",
+      "status": "deferred",
+      "summary": "Tentative owner interest: a clickable map of task, component and project dependencies; selecting a blocker shows the work it prevents. Derive recorded relationships from native owners and label inferred or incomplete links.",
+      "title": "Interactive work dependency map",
+      "type": "feature"
+    },
+    {
+      "category": "Collaboration",
+      "features": [
+        "feature-10985be27f46",
+        "cap-readonly-dashboard",
+        "capability-fcc820f57a9b"
+      ],
+      "horizon": "current",
+      "id": "capability-58710b2f1a77",
+      "status": "completed",
+      "summary": "Observe configured canonical and peer Git sources before integration, with advisory native attempts and common Current Work/dashboard. Local full-name participant profiles preserve creator, completion and contributor identities across apps and linked worktrees; revision-bound reviews and raw-ancestry integration signatures retain explicit evidence. Native save, publication, recorded proof and target integration remain separate; live deployment and friend adoption require qualification.",
+      "title": "Shared work before integration",
+      "type": "capability"
+    },
+    {
+      "category": "Collaboration",
+      "features": [
+        "cap-bounded-delegation",
+        "future-latency-coordination",
+        "future-orchestration-accounting",
+        "future-primary-companion-relationships"
+      ],
+      "horizon": "future",
+      "id": "future-cap-measured-delegation",
+      "status": "planned",
+      "summary": "Route bounded work using comparable quality, latency, token, and cost evidence while keeping unknown attribution explicit.",
+      "title": "Choose companions from measured value",
+      "type": "capability"
+    },
+    {
+      "category": "Delivery",
+      "features": [
+        "cap-versioned-portable",
+        "feature-969986e68ba0"
+      ],
+      "horizon": "future",
+      "id": "future-cap-cross-project-kit",
+      "status": "deferred",
+      "summary": "Install and verify the useful Docs, NAV, RAM, TokenSlang, workflow, and dashboard surfaces with explicit consumer ownership.",
+      "title": "Adopt a portable EUTONOS kit in other projects",
+      "type": "capability"
+    },
+    {
+      "category": "Delivery",
+      "features": [
+        "cap-delivery-summary",
+        "future-delivery-journey",
+        "future-control-center"
+      ],
+      "horizon": "future",
+      "id": "future-cap-guided-delivery",
+      "status": "planned",
+      "summary": "See what can be saved, integrated, published, or accepted and why, with the controlling authority and evidence visible.",
+      "title": "Understand delivery readiness at a glance",
+      "type": "capability"
+    },
+    {
+      "category": "Knowledge",
+      "features": [
+        "future-atlas-readiness"
+      ],
+      "horizon": "future",
+      "id": "future-cap-atlas-adoption",
+      "status": "deferred",
+      "summary": "Install, configure, and accept an ATLAS engine and knowledge index through the existing read boundary without making generated interpretation authoritative.",
+      "title": "Adopt a configured ATLAS engine and index",
+      "type": "capability"
+    },
+    {
+      "category": "Workflow",
+      "features": [
+        "future-quiet-portable-delegation",
+        "future-working-cache"
+      ],
+      "horizon": "future",
+      "id": "future-cap-quiet-continuity",
+      "status": "deferred",
+      "summary": "Retain useful checkpoints and recover owned interrupted work through explicit host events without a constantly polling model.",
+      "title": "Resume useful work with less bookkeeping",
+      "type": "capability"
+    }
+  ],
+  "profile": "eutonos.offers.v1",
+  "sources": [
+    {
+      "horizon": "current",
+      "path": "docs/CURRENT_CAPABILITIES.md",
+      "type": "capability"
+    },
+    {
+      "horizon": "current",
+      "path": "docs/CURRENT_FEATURES.md",
+      "type": "feature"
+    },
+    {
+      "horizon": "future",
+      "path": "docs/FUTURE_CAPABILITIES.md",
+      "type": "capability"
+    },
+    {
+      "horizon": "future",
+      "path": "docs/FUTURE_FEATURES.md",
+      "type": "feature"
+    }
+  ]
+}

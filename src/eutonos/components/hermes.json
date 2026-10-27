@@ -1,0 +1,41 @@
+{
+  "profile": "eutonos.component.v1",
+  "id": "hermes",
+  "name": "Hermes plugin",
+  "version": "1.0.0",
+  "kind": "bundled",
+  "requires": {
+    "eutonos": ">=0.5",
+    "components": [
+      "core",
+      "crosstalk"
+    ],
+    "os": [
+      "windows",
+      "macos"
+    ],
+    "apps": [
+      "hermes"
+    ],
+    "tools": []
+  },
+  "default": "on",
+  "gate": null,
+  "kit": "kits/crosstalk",
+  "entry": {
+    "plan": "eutonos.component_hermes:plan",
+    "apply": "eutonos.component_hermes:apply",
+    "verify": "eutonos.component_hermes:verify",
+    "remove": "eutonos.component_hermes:remove"
+  },
+  "permissions": [
+    "hermes-gateway"
+  ],
+  "consent_lines": [
+    "hermes-gateway"
+  ],
+  "licence": {
+    "required": false,
+    "check": null
+  }
+}

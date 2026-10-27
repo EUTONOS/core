@@ -1,0 +1,40 @@
+{
+  "profile": "eutonos.component.v1",
+  "id": "remote-control",
+  "name": "Remote Control launcher",
+  "version": "1.0.0",
+  "kind": "bundled",
+  "requires": {
+    "eutonos": ">=0.5",
+    "components": [
+      "core"
+    ],
+    "os": [
+      "windows",
+      "macos"
+    ],
+    "apps": [
+      "claude"
+    ],
+    "tools": []
+  },
+  "default": "on",
+  "gate": null,
+  "kit": null,
+  "entry": {
+    "plan": "eutonos.component_remote_control:plan",
+    "apply": "eutonos.component_remote_control:apply",
+    "verify": "eutonos.component_remote_control:verify",
+    "remove": "eutonos.component_remote_control:remove"
+  },
+  "permissions": [
+    "desktop-rc-default"
+  ],
+  "consent_lines": [
+    "desktop-rc-default"
+  ],
+  "licence": {
+    "required": false,
+    "check": null
+  }
+}

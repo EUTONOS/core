@@ -1,0 +1,4 @@
+{
+  "description": "Crosstalk tools and session-start self-registration",
+  "modules": ["./register.mjs"]
+}

@@ -1,0 +1,62 @@
+/* Repository visibility, health and exploration views. Reuses app.css tokens. */
+:root {
+  --repo-evidence: light-dark(#1a56db, #8ab4ff);
+  --repo-related: var(--muted);
+}
+
+.health-counts .stat-value { font-variant-numeric: tabular-nums; }
+.health-area { margin-bottom: 16px; }
+.indicator-list { display: grid; gap: 0; margin-top: 10px; }
+.indicator-row { border-top: 1px solid var(--line); }
+.indicator-row:first-child { border-top: 0; }
+.indicator-row summary { list-style: none; cursor: pointer; padding: 12px 4px; display: flex; align-items: center; gap: 10px; }
+.indicator-row summary::-webkit-details-marker { display: none; }
+.indicator-icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line); font-size: .72rem; font-weight: 700; flex: none; }
+.indicator-icon.good { border-color: var(--green); color: var(--green); }
+.indicator-icon.warn { border-color: var(--amber); color: var(--amber); }
+.indicator-icon.bad { border-color: var(--red); color: var(--red); }
+.indicator-label { font-weight: 600; flex: 1; min-width: 0; }
+.indicator-state-text { color: var(--muted); font-size: .78rem; white-space: nowrap; }
+.indicator-detail { padding: 0 4px 14px 34px; color: var(--muted); font-size: .85rem; }
+.indicator-detail p { margin: 6px 0; }
+.indicator-detail ul { margin: 4px 0; padding-left: 18px; }
+.indicator-detail li { margin: 2px 0; }
+
+.repo-hotspots-window { margin-bottom: 4px; }
+
+.nav-graph-toolbar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 14px; }
+.nav-graph-toolbar input[type="search"] { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--text); min-width: 200px; }
+.nav-graph-kinds { display: flex; flex-wrap: wrap; gap: 8px; }
+.nav-graph-kinds label { display: inline-flex; align-items: center; gap: 5px; font-size: .8rem; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 4px 10px; }
+.nav-graph-hidden { color: var(--muted); font-size: .8rem; }
+.nav-graph-view-toggle button[aria-pressed="true"] { color: var(--text); background: var(--panel2); border-color: var(--accent); }
+.nav-graph-legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 8px 0 12px; font-size: .76rem; color: var(--muted); align-items: center; }
+.nav-graph-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.nav-graph-legend svg { display: block; }
+
+.nav-graph-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--side); }
+.nav-graph-svg { display: block; min-width: 640px; }
+.graph-edge { fill: none; }
+.graph-edge.related { stroke: var(--repo-related); stroke-width: 1.4; stroke-dasharray: 5 4; }
+.graph-edge.evidence { stroke: var(--repo-evidence); stroke-width: 1.8; }
+.graph-edge.dimmed { opacity: .12; }
+.graph-node rect { fill: var(--panel); stroke: var(--line); stroke-width: 1.2; }
+.graph-node text { fill: var(--text); font-size: 10.5px; }
+.graph-node .graph-node-kind { fill: var(--muted); font-size: 9px; }
+.graph-node.dimmed { opacity: .28; }
+.graph-node.selected rect { stroke: var(--accent); stroke-width: 2.4; }
+.graph-node.group rect { fill: var(--panel2); stroke-dasharray: 3 2; }
+.graph-node { cursor: pointer; }
+.graph-lane-label { fill: var(--muted); font-size: 11px; font-weight: 600; }
+
+.nav-graph-detail { margin-top: 14px; }
+.nav-graph-detail .related-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.nav-graph-detail button.related-link { border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; font-size: .76rem; background: transparent; color: var(--text); cursor: pointer; }
+
+.nav-graph-list .route { cursor: pointer; }
+.nav-graph-list .route.selected { background: var(--panel2); border-radius: 8px; }
+
+@media (max-width: 720px) {
+  .nav-graph-toolbar { flex-direction: column; align-items: stretch; }
+  .nav-graph-toolbar input[type="search"] { width: 100%; }
+}

@@ -1,0 +1,4 @@
+{
+  "description": "Crosstalk P0 one-shot restricted sender command (zero model turns)",
+  "modules": ["./register.mjs"]
+}

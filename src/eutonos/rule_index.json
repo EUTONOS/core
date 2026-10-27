@@ -1,0 +1,101 @@
+{
+  "profile": "eutonos.rule-reference-index.v1",
+  "rules": [
+    {
+      "id": "eutonos.rule.entry",
+      "owner": {"scope": "native", "role": "instructions"},
+      "reason": "Resolve applicable repository and harness constraints before work.",
+      "tier": "Required",
+      "applies_when": "Every entry and task; already-loaded exact selections can satisfy reading."
+    },
+    {
+      "id": "eutonos.rule.onboarding",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.agent-onboarding", "path": "docs/AGENT_ONBOARDING.md", "selection": "Mandatory reading and applicable setup, pickup and first-run exercise"},
+      "reason": "Locate the complete applicable entry route, including source-pinned RAM, NAV, current/completed work and real closeout exercises.",
+      "tier": "Required-if",
+      "applies_when": "First entry, a new harness, lost context or an applicable uncompleted first-run exercise; follow native onboarding adaptations."
+    },
+    {
+      "id": "eutonos.rule.selected-work",
+      "owner": {"scope": "native", "role": "current_task"},
+      "reason": "Find the selected work and its source-pinned native scope, checkpoint and next action.",
+      "tier": "Required-if",
+      "applies_when": "Picking up, executing, resuming or reporting admitted work; use the native selection's campaign/module readings."
+    },
+    {
+      "id": "eutonos.rule.reading-tiers",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.campaign-context", "path": "docs/CAMPAIGN_CONTEXT.md", "selection": "Required, conditional and optional reading"},
+      "reason": "Interpret task-relative reading labels and resolve material applicability uncertainty without omitting constraints.",
+      "tier": "Required-if",
+      "applies_when": "Selecting, changing or resolving a task reading map or context gap."
+    },
+    {
+      "id": "eutonos.rule.completion-integration",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.work-model", "path": "docs/WORK_MODEL.md", "selection": "Completion contract; canonical wording in src/eutonos/completion_policy.py"},
+      "reason": "Resolve the requested finish line and coordinator target integration against the applicable managed AGENTS contract and CLAUDE import.",
+      "tier": "Required-if",
+      "applies_when": "Implementing or finishing work, interpreting a narrower deliverable, or assessing completion."
+    },
+    {
+      "id": "eutonos.rule.delivery",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.work-model", "path": "docs/WORK_MODEL.md", "selection": "Save, integrate and publish at useful milestones"},
+      "reason": "Distinguish native writing, Git publication, target integration and runtime effects under the selected delivery route.",
+      "tier": "Required-if",
+      "applies_when": "Saving, integrating, publishing or judging delivered state."
+    },
+    {
+      "id": "eutonos.rule.recording-closeout",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.work-model", "path": "docs/WORK_MODEL.md", "selection": "Record substantive work before execution; Lightweight closeout filing"},
+      "reason": "Find the recording boundary and native lifecycle route for this task.",
+      "tier": "Required-if",
+      "applies_when": "Substantive work, tracked work, meaningful checkpoints or a task's closeout assessment."
+    },
+    {
+      "id": "eutonos.rule.workflow-procedure",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.deployment-startup", "path": "docs/DEPLOYMENT_STARTUP.md", "selection": "Guided task CLI; Shared Current Work; delivery and attribution"},
+      "reason": "Resolve actual checkout/installed commands, native source selection and phase-specific recovery.",
+      "tier": "Required-if",
+      "applies_when": "Using an unfamiliar workflow operation, resolving coverage or recovering a failed phase."
+    },
+    {
+      "id": "eutonos.rule.campaign-gates",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.campaign-lifecycle", "path": "docs/CAMPAIGN_LIFECYCLE.md", "selection": "Review checkpoints and stage-closeout briefing"},
+      "reason": "Locate applicable review, dependency and integration gates alongside the selected campaign.",
+      "tier": "Required-if",
+      "applies_when": "Planning, implementing, reviewing or closing a campaign stage."
+    },
+    {
+      "id": "eutonos.rule.verification",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.project-health", "path": "docs/PROJECT_HEALTH.md", "selection": "Campaign-first verification and relevant checks"},
+      "reason": "Select the smallest required checks for changed source and its consumers.",
+      "tier": "Required-if",
+      "applies_when": "Changing source or claiming verified behavior/readiness."
+    },
+    {
+      "id": "eutonos.rule.experience-navigation",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.workflow-navigation", "path": "NAV/WORKFLOWS.md", "selection": "Task-relevant RAM, NAV and procedure routes"},
+      "reason": "Find useful optional experience and source routes beyond any required onboarding exercise or task-selected source.",
+      "tier": "Optional",
+      "applies_when": "Additional experience or navigation would help; applicable entry/task requirements remain required."
+    },
+    {
+      "id": "eutonos.rule.agent-access",
+      "owner": {"scope": "upstream-reference", "resource_id": "eutonos.doc.module-agent-interface", "path": "modules/agent-interface/CONTRACT.md", "selection": "Adaptive context, not compulsory packets; identity and contribution provenance"},
+      "reason": "Resolve access and caller/source provenance boundaries without assuming packet or installed capability support.",
+      "tier": "Required-if",
+      "applies_when": "Designing/using agent access, composing context or making provenance claims."
+    }
+  ],
+  "precedence": [
+    {
+      "rule": "eutonos.rule.completion-integration",
+      "related": ["eutonos.rule.entry", "eutonos.rule.delivery", "eutonos.rule.campaign-gates"],
+      "reason": "Read the scoped implementation/integration contract beside applicable AGENTS/CLAUDE instructions and separate publication/effect rules; surface conflicts to their canonical owners."
+    },
+    {
+      "rule": "eutonos.rule.reading-tiers",
+      "related": ["eutonos.rule.entry", "eutonos.rule.onboarding", "eutonos.rule.selected-work", "eutonos.rule.experience-navigation"],
+      "reason": "Resolve each task's reading need against applicable entry requirements and actual dependencies; the Optional experience row does not downgrade required exercises or selections."
+    }
+  ]
+}

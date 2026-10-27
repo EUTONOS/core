@@ -1,0 +1,48 @@
+{
+  "profile": "eutonos.component.v1",
+  "id": "role-hooks",
+  "name": "Role reminder hooks",
+  "version": "1.0.0",
+  "kind": "bundled",
+  "requires": {
+    "eutonos": ">=0.5",
+    "components": [
+      "core"
+    ],
+    "os": [
+      "windows",
+      "macos"
+    ],
+    "apps": [
+      "claude",
+      "codex"
+    ],
+    "tools": []
+  },
+  "default": "held",
+  "gate": {
+    "slice": "slice-fe8c09fb-1163-4e9e-bac4-876914ddd824",
+    "reason": "held until the roles cleanup is done"
+  },
+  "kit": null,
+  "entry": {
+    "plan": "eutonos.component_role_hooks:plan",
+    "apply": "eutonos.component_role_hooks:apply",
+    "verify": "eutonos.component_role_hooks:verify",
+    "remove": "eutonos.component_role_hooks:remove"
+  },
+  "permissions": [
+    "codex-hook-trust",
+    "claude-hooks",
+    "codex-hooks"
+  ],
+  "consent_lines": [
+    "codex-hook-trust",
+    "claude-hooks",
+    "codex-hooks"
+  ],
+  "licence": {
+    "required": false,
+    "check": null
+  }
+}

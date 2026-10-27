@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "& (Join-Path $env:CLAUDE_PROJECT_DIR '.venv/Scripts/python.exe') (Join-Path $env:CLAUDE_PROJECT_DIR 'tools/simon_session_end.py')",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

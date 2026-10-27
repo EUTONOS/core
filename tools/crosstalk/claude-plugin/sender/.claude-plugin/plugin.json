@@ -1,0 +1,5 @@
+{
+  "name": "crosstalk-p0-sender",
+  "version": "0.0.1",
+  "description": "Crosstalk P0 throwaway restricted live-session sender; loaded only through --plugin-dir by the tool helper"
+}

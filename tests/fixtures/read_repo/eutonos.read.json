@@ -1,0 +1,16 @@
+{
+  "profile": "eutonos.tokenslang.catalog.v1",
+  "repository_id": "fixture.repository",
+  "scope_id": "fixture.scope",
+  "namespace": "fixture.native",
+  "owners": {"current_task": {"scope_id": "fixture.scope", "namespace": "fixture.native", "resource_id": "work-owner"}},
+  "excluded_roots": ["vendor"],
+  "source_paths": ["demo.py", "RULES.md", "WORK.md"],
+  "bindings": [
+    {"resource_id": "work-owner", "path": "WORK.md", "kind": "docs", "label": "Native selected work", "visibility": "public", "state": "active"},
+    {"resource_id": "required-rules", "path": "RULES.md", "kind": "docs", "label": "Required fixture constraints", "visibility": "public", "state": "active"},
+    {"resource_id": "SRC-DEMO", "aliases": ["demo-source"], "path": "demo.py", "kind": "source", "label": "First implementation source", "visibility": "public", "state": "active"},
+    {"resource_id": "NAV-DEMO", "path": "NAV.json", "kind": "nav", "label": "Fixture NAV route", "visibility": "public", "state": "active"},
+    {"resource_id": "RAM-DEMO", "path": "RAM.json", "kind": "ram", "label": "Fixture prior experience", "visibility": "public", "state": "active"}
+  ]
+}
